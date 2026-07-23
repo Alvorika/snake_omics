@@ -1,0 +1,15 @@
+.git/
+.snakemake/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+logs/
+results/
+work/
+config/config.yaml
+config/samples.tsv
+config/qc_reviews.tsv
+config/roi_label_aliases.tsv
+config/pathway_gene_sets.tsv

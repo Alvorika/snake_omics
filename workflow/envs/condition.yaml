@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.11
+  - anndata=0.12.10
+  - numpy=2.4.3
+  - pandas=2.3.3
+  - scipy=1.17.1
+  - scikit-learn=1.8.0
+  - matplotlib=3.10.8
+  - formulaic=1.2.1
+  - pydeseq2=0.5.4

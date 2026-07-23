@@ -1,0 +1,2 @@
+"""Static, reproducible visualization modules."""
+

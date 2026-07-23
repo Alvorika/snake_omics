@@ -1,0 +1,119 @@
+# Copy this file to config/config.yaml for a new project.
+# Only project identity and sample sheet are normally required; uncomment any
+# block you want to override. Missing entries inherit from defaults.yaml.
+config_version: 1
+
+project:
+  name: my-spatial-transcriptomics-project
+
+samples: config/samples.tsv
+
+modules:
+  enabled:
+    - qc
+  auto_dependencies: true
+
+# When using `--sdm conda`, keep the repository default `python`. During local
+# development this may point to an existing interpreter.
+# execution:
+#   python: /absolute/path/to/environment/bin/python
+
+# Repository resources are declared in defaults.yaml. Replace the project
+# manifests themselves, or override their paths here. For pathway resources,
+# copy pathway_gene_sets.template.tsv and record verified resources first;
+# relative GMT paths inside that manifest resolve from the manifest directory.
+# resources:
+#   roi_aliases: config/roi_label_aliases.tsv
+#   pathway_gene_sets: config/pathway_gene_sets.tsv
+#   go_obo: null
+
+# input:
+#   primary_matrix: filtered
+#   use_raw_for_background_qc: true
+#   unavailable_capability: report
+
+# storage:
+#   matrix_backend: h5ad
+#   embed_fullres_image: false
+#   embed_thumbnail: false
+#   keep_ingested_checkpoint: true
+
+# qc:
+#   report_only: true
+#   unavailable_metric: report
+#   numeric_metrics:
+#     in_tissue: true
+#     total_counts: true
+#     detected_genes: true
+#     mitochondrial_fraction: true
+#   checks:
+#     image_alignment: true
+#     spatial_artifacts: true
+#   mitochondrial:
+#     feature_column: gene_symbol
+#     prefixes:
+#       - MT-
+#     case_sensitive: false
+#   score:
+#     profile: config/qc_profiles/unconfigured_v1.yaml
+#     reviews: config/qc_reviews.tsv
+#   plots:
+#     numeric_overview:
+#       histogram_bins: 60
+#       dpi: 180
+#     spot_complexity:
+#       hexbin_gridsize: 60
+#       dpi: 180
+#     background_qc:
+#       lower_quantile: 0.01
+#       upper_quantile: 0.99
+#       point_size: 5.0
+#       dpi: 180
+#     spatial_qc:
+#       lower_quantile: 0.01
+#       upper_quantile: 0.99
+#       point_size: 6.0
+#       dpi: 180
+#     image_alignment:
+#       image_preference:
+#         - tissue_hires
+#         - tissue_lowres
+#         - aligned_tissue
+#       spot_diameter_scale: 0.65
+#       fallback_spot_diameter_px: 7.0
+#       dpi: 180
+
+# Downstream modules are explicit optional targets. Override only parameters
+# that differ from defaults; factor levels must be filled before condition or
+# pathway targets are used.
+# analysis:
+#   preprocessing:
+#     min_genes: 200
+#     n_top_genes: 3000
+#     n_comps: 50
+#   embedding:
+#     n_neighbors: 15
+#     primary_resolution: 0.6
+#   spatial:
+#     alpha: 0.3
+#     resolution: 0.6
+#   condition:
+#     mode: auto
+#     genotype_reference: reference
+#     genotype_alternative: alternative
+#     treatment_reference: control
+#     treatment_alternative: treated
+#     biological_unit_column: animal_id
+#     min_biological_replicates_per_cell: 3
+#   pathway:
+#     expected_rankings: null
+#     permutations: 100
+
+# reporting:
+#   embeddings:
+#     dpi: 180
+
+# External references are validation comparators, never ground truth.
+# validation:
+#   graphst_root: null
+#   company_root: null

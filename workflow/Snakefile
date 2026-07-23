@@ -1,0 +1,31 @@
+configfile: "config/defaults.yaml"
+configfile: "config/config.yaml"
+
+report: "report/workflow.rst"
+
+include: "rules/common.smk"
+
+
+rule all:
+    input:
+        SELECTED_MODULE_OUTPUTS,
+    default_target: True
+
+
+include: "rules/input.smk"
+include: "rules/qc.smk"
+include: "rules/metadata.smk"
+include: "rules/eligibility.smk"
+include: "rules/preprocessing.smk"
+include: "rules/diagnostics.smk"
+include: "rules/embedding.smk"
+include: "rules/spatial.smk"
+include: "rules/roi.smk"
+include: "rules/svg.smk"
+include: "rules/condition.smk"
+include: "rules/pathway.smk"
+include: "rules/visualization.smk"
+include: "rules/validation.smk"
+include: "rules/reporting.smk"
+include: "rules/report.smk"
+include: "rules/targets.smk"

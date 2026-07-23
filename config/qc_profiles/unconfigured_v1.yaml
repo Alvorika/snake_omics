@@ -1,0 +1,16 @@
+profile_version: 1
+profile_id: unconfigured_v1
+description: >-
+  Safe starter profile. Numeric thresholds are intentionally unset, so the
+  report shows UNCALIBRATED until the user selects a versioned assay profile.
+assays: []
+thresholds:
+  total_counts:
+    warn_below: null
+    pass_at_or_above: null
+  detected_genes:
+    warn_below: null
+    pass_at_or_above: null
+  mitochondrial_fraction:
+    pass_at_or_below: null
+    warn_at_or_below: null

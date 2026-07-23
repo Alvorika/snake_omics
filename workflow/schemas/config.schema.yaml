@@ -1,0 +1,680 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+type: object
+additionalProperties: false
+required:
+  - config_version
+  - project
+  - samples
+  - modules
+  - execution
+  - resources
+  - input
+  - storage
+  - qc
+  - analysis
+  - reporting
+  - validation
+$defs:
+  non_empty_string:
+    type: string
+    minLength: 1
+  nullable_string:
+    type:
+      - string
+      - "null"
+    minLength: 1
+  threads:
+    type: integer
+    minimum: 1
+    maximum: 64
+  dpi:
+    type: integer
+    minimum: 72
+    maximum: 600
+  string_list:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1
+  integer_list:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: integer
+  number_list:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: number
+properties:
+  config_version:
+    const: 1
+  project:
+    type: object
+    additionalProperties: false
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        minLength: 1
+  samples:
+    type: string
+    minLength: 1
+  modules:
+    type: object
+    additionalProperties: false
+    required:
+      - enabled
+      - auto_dependencies
+    properties:
+      enabled:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+            - qc
+            - core
+            - roi
+            - svg
+            - condition_2x2
+            - pathway
+            - figures
+            - resource_report
+            - report
+            - external_validation
+            - full
+      auto_dependencies:
+        type: boolean
+  execution:
+    type: object
+    additionalProperties: false
+    required:
+      - python
+    properties:
+      python:
+        $ref: "#/$defs/non_empty_string"
+  resources:
+    type: object
+    additionalProperties: false
+    required:
+      - roi_aliases
+      - pathway_gene_sets
+      - go_obo
+    properties:
+      roi_aliases:
+        $ref: "#/$defs/non_empty_string"
+      pathway_gene_sets:
+        $ref: "#/$defs/non_empty_string"
+      go_obo:
+        $ref: "#/$defs/nullable_string"
+  input:
+    type: object
+    additionalProperties: false
+    required:
+      - primary_matrix
+      - use_raw_for_background_qc
+      - unavailable_capability
+    properties:
+      primary_matrix:
+        type: string
+        enum:
+          - filtered
+      use_raw_for_background_qc:
+        type: boolean
+      unavailable_capability:
+        type: string
+        enum:
+          - report
+  storage:
+    type: object
+    additionalProperties: false
+    required:
+      - matrix_backend
+      - embed_fullres_image
+      - embed_thumbnail
+      - keep_ingested_checkpoint
+    properties:
+      matrix_backend:
+        type: string
+        enum:
+          - h5ad
+      embed_fullres_image:
+        const: false
+      embed_thumbnail:
+        const: false
+      keep_ingested_checkpoint:
+        const: true
+  qc:
+    type: object
+    additionalProperties: false
+    required:
+      - report_only
+      - unavailable_metric
+      - numeric_metrics
+      - checks
+      - mitochondrial
+      - score
+      - plots
+    properties:
+      report_only:
+        const: true
+      unavailable_metric:
+        type: string
+        enum:
+          - report
+      numeric_metrics:
+        type: object
+        additionalProperties: false
+        required:
+          - in_tissue
+          - total_counts
+          - detected_genes
+          - mitochondrial_fraction
+        properties:
+          in_tissue:
+            type: boolean
+          total_counts:
+            type: boolean
+          detected_genes:
+            type: boolean
+          mitochondrial_fraction:
+            type: boolean
+      checks:
+        type: object
+        additionalProperties: false
+        required:
+          - image_alignment
+          - spatial_artifacts
+        properties:
+          image_alignment:
+            type: boolean
+          spatial_artifacts:
+            type: boolean
+      mitochondrial:
+        type: object
+        additionalProperties: false
+        required:
+          - feature_column
+          - prefixes
+          - case_sensitive
+        properties:
+          feature_column:
+            type: string
+            enum:
+              - gene_symbol
+          prefixes:
+            type: array
+            minItems: 1
+            uniqueItems: true
+            items:
+              type: string
+              minLength: 1
+          case_sensitive:
+            type: boolean
+      score:
+        type: object
+        additionalProperties: false
+        required:
+          - enabled
+          - method_version
+          - profile
+          - reviews
+          - minimum_coverage
+          - weights
+          - status_points
+          - required_manual_components
+          - hard_blockers
+        properties:
+          enabled:
+            type: boolean
+          method_version:
+            $ref: "#/$defs/non_empty_string"
+          profile:
+            $ref: "#/$defs/non_empty_string"
+          reviews:
+            $ref: "#/$defs/non_empty_string"
+          minimum_coverage:
+            type: number
+            minimum: 0
+            maximum: 1
+          weights:
+            type: object
+            additionalProperties: false
+            required:
+              - in_tissue
+              - total_counts
+              - detected_genes
+              - mitochondrial_fraction
+              - image_alignment
+              - spatial_artifacts
+            properties:
+              in_tissue: {const: 20}
+              total_counts: {const: 10}
+              detected_genes: {const: 10}
+              mitochondrial_fraction: {const: 20}
+              image_alignment: {const: 20}
+              spatial_artifacts: {const: 20}
+          status_points:
+            type: object
+            additionalProperties: false
+            required: [PASS, WARN, FAIL]
+            properties:
+              PASS: {const: 100}
+              WARN: {const: 50}
+              FAIL: {const: 0}
+          required_manual_components:
+            $ref: "#/$defs/string_list"
+          hard_blockers:
+            $ref: "#/$defs/string_list"
+      plots:
+        type: object
+        additionalProperties: false
+        required:
+          - numeric_overview
+          - spot_complexity
+          - background_qc
+          - spatial_qc
+          - image_alignment
+        properties:
+          numeric_overview:
+            type: object
+            additionalProperties: false
+            required:
+              - histogram_bins
+              - dpi
+            properties:
+              histogram_bins:
+                type: integer
+                minimum: 10
+                maximum: 200
+              dpi:
+                type: integer
+                minimum: 72
+                maximum: 600
+          spot_complexity:
+            type: object
+            additionalProperties: false
+            required:
+              - hexbin_gridsize
+              - dpi
+            properties:
+              hexbin_gridsize:
+                type: integer
+                minimum: 20
+                maximum: 150
+              dpi:
+                type: integer
+                minimum: 72
+                maximum: 600
+          background_qc:
+            type: object
+            additionalProperties: false
+            required:
+              - lower_quantile
+              - upper_quantile
+              - point_size
+              - dpi
+            properties:
+              lower_quantile:
+                type: number
+                minimum: 0
+                maximum: 0.25
+              upper_quantile:
+                type: number
+                minimum: 0.75
+                maximum: 1
+              point_size:
+                type: number
+                minimum: 0.1
+                maximum: 50
+              dpi:
+                type: integer
+                minimum: 72
+                maximum: 600
+          spatial_qc:
+            type: object
+            additionalProperties: false
+            required:
+              - lower_quantile
+              - upper_quantile
+              - point_size
+              - dpi
+            properties:
+              lower_quantile:
+                type: number
+                minimum: 0
+                maximum: 0.25
+              upper_quantile:
+                type: number
+                minimum: 0.75
+                maximum: 1
+              point_size:
+                type: number
+                minimum: 0.1
+                maximum: 50
+              dpi:
+                type: integer
+                minimum: 72
+                maximum: 600
+          image_alignment:
+            type: object
+            additionalProperties: false
+            required:
+              - image_preference
+              - spot_diameter_scale
+              - fallback_spot_diameter_px
+              - dpi
+            properties:
+              image_preference:
+                type: array
+                minItems: 1
+                uniqueItems: true
+                items:
+                  type: string
+                  enum:
+                    - tissue_hires
+                    - tissue_lowres
+                    - aligned_tissue
+              spot_diameter_scale:
+                type: number
+                minimum: 0.1
+                maximum: 2
+              fallback_spot_diameter_px:
+                type: number
+                minimum: 1
+                maximum: 30
+              dpi:
+                type: integer
+                minimum: 72
+                maximum: 600
+  analysis:
+    type: object
+    additionalProperties: false
+    required:
+      - eligibility
+      - preprocessing
+      - diagnostics
+      - embedding
+      - spatial
+      - roi
+      - svg
+      - condition
+      - pathway
+    properties:
+      eligibility:
+        type: object
+        additionalProperties: false
+        required:
+          - excluded_labels
+          - barcode_match
+          - orphan_roi_action
+          - coordinate_bounds_action
+          - report_only
+          - threads
+        properties:
+          excluded_labels:
+            $ref: "#/$defs/string_list"
+          barcode_match:
+            enum: [exact, exact_then_10x_suffix]
+          orphan_roi_action:
+            enum: [error, report]
+          coordinate_bounds_action:
+            enum: [review, ignore]
+          report_only:
+            const: true
+          threads:
+            $ref: "#/$defs/threads"
+      preprocessing:
+        type: object
+        additionalProperties: false
+        required:
+          - min_genes
+          - min_spots
+          - target_sum
+          - n_top_genes
+          - n_comps
+          - scale_max_value
+          - seed
+          - threads
+        properties:
+          min_genes: {type: integer, minimum: 0}
+          min_spots: {type: integer, minimum: 1}
+          target_sum: {type: number, exclusiveMinimum: 0}
+          n_top_genes: {type: integer, minimum: 1}
+          n_comps: {type: integer, minimum: 2}
+          scale_max_value: {type: number, exclusiveMinimum: 0}
+          seed: {type: integer, minimum: 0}
+          threads: {$ref: "#/$defs/threads"}
+      diagnostics:
+        type: object
+        additionalProperties: false
+        required: [max_pcs, threads]
+        properties:
+          max_pcs: {type: integer, minimum: 1}
+          threads: {$ref: "#/$defs/threads"}
+      embedding:
+        type: object
+        additionalProperties: false
+        required:
+          - n_pcs
+          - n_neighbors
+          - resolutions
+          - seeds
+          - primary_resolution
+          - primary_seed
+          - umap_min_dist
+          - threads
+        properties:
+          n_pcs: {type: integer, minimum: 2}
+          n_neighbors: {type: integer, minimum: 2}
+          resolutions: {$ref: "#/$defs/number_list"}
+          seeds: {$ref: "#/$defs/integer_list"}
+          primary_resolution: {type: number, exclusiveMinimum: 0}
+          primary_seed: {type: integer, minimum: 0}
+          umap_min_dist: {type: number, minimum: 0, maximum: 1}
+          threads: {$ref: "#/$defs/threads"}
+      spatial:
+        type: object
+        additionalProperties: false
+        required:
+          - alpha
+          - resolution
+          - seeds
+          - primary_seed
+          - excluded_roi_labels
+          - threads
+        properties:
+          alpha: {type: number, minimum: 0, maximum: 1}
+          resolution: {type: number, exclusiveMinimum: 0}
+          seeds: {$ref: "#/$defs/integer_list"}
+          primary_seed: {type: integer, minimum: 0}
+          excluded_roi_labels: {$ref: "#/$defs/string_list"}
+          threads: {$ref: "#/$defs/threads"}
+      roi:
+        type: object
+        additionalProperties: false
+        required:
+          - excluded_labels
+          - min_genes
+          - min_roi_spots
+          - min_detected_spots
+          - min_detection_fraction
+          - log2_pseudocount
+          - threads
+        properties:
+          excluded_labels: {$ref: "#/$defs/string_list"}
+          min_genes: {type: integer, minimum: 0}
+          min_roi_spots: {type: integer, minimum: 1}
+          min_detected_spots: {type: integer, minimum: 1}
+          min_detection_fraction: {type: number, minimum: 0, maximum: 1}
+          log2_pseudocount: {type: number, exclusiveMinimum: 0}
+          threads: {$ref: "#/$defs/threads"}
+      svg:
+        type: object
+        additionalProperties: false
+        required:
+          - gene_symbol_column
+          - excluded_roi_labels
+          - min_genes
+          - component_min_spots
+          - gene_min_detected_spots
+          - gene_min_detection_fraction
+          - normalization_target_sum
+          - screen_top_n
+          - permutations
+          - seed
+          - score_block_size
+          - run_permutation
+          - threads
+        properties:
+          gene_symbol_column: {$ref: "#/$defs/non_empty_string"}
+          excluded_roi_labels: {$ref: "#/$defs/string_list"}
+          min_genes: {type: integer, minimum: 0}
+          component_min_spots: {type: integer, minimum: 2}
+          gene_min_detected_spots: {type: integer, minimum: 1}
+          gene_min_detection_fraction: {type: number, minimum: 0, maximum: 1}
+          normalization_target_sum: {type: number, exclusiveMinimum: 0}
+          screen_top_n: {type: integer, minimum: 1}
+          permutations: {type: integer, minimum: 0}
+          seed: {type: integer, minimum: 0}
+          score_block_size: {type: integer, minimum: 1}
+          run_permutation: {type: boolean}
+          threads: {$ref: "#/$defs/threads"}
+      condition:
+        type: object
+        additionalProperties: false
+        required:
+          - mode
+          - genotype_reference
+          - genotype_alternative
+          - treatment_reference
+          - treatment_alternative
+          - biological_unit_column
+          - batch_column
+          - min_biological_replicates_per_cell
+          - min_roi_spots_per_unit
+          - min_total_gene_count
+          - size_factors_fit_type
+          - fit_type
+          - alpha
+          - cooks_filter
+          - independent_filter
+          - refit_cooks
+          - threads
+        properties:
+          mode:
+            type: string
+            enum: [auto, descriptive, replicated]
+          genotype_reference: {$ref: "#/$defs/nullable_string"}
+          genotype_alternative: {$ref: "#/$defs/nullable_string"}
+          treatment_reference: {$ref: "#/$defs/nullable_string"}
+          treatment_alternative: {$ref: "#/$defs/nullable_string"}
+          biological_unit_column: {$ref: "#/$defs/non_empty_string"}
+          batch_column: {$ref: "#/$defs/nullable_string"}
+          min_biological_replicates_per_cell:
+            type: integer
+            minimum: 2
+          min_roi_spots_per_unit:
+            type: integer
+            minimum: 1
+          min_total_gene_count:
+            type: integer
+            minimum: 1
+          size_factors_fit_type:
+            type: string
+            enum: [ratio, poscounts, iterative]
+          fit_type:
+            type: string
+            enum: [parametric, mean]
+          alpha:
+            type: number
+            exclusiveMinimum: 0
+            maximum: 1
+          cooks_filter: {type: boolean}
+          independent_filter: {type: boolean}
+          refit_cooks: {type: boolean}
+          threads: {$ref: "#/$defs/threads"}
+      pathway:
+        type: object
+        additionalProperties: false
+        required:
+          - expected_rankings
+          - min_counts
+          - min_design_cells
+          - min_size
+          - max_size
+          - permutations
+          - seed
+          - resume
+          - threads
+        properties:
+          expected_rankings:
+            type: [integer, "null"]
+            minimum: 1
+          min_counts: {type: integer, minimum: 0}
+          min_design_cells: {type: integer, minimum: 1}
+          min_size: {type: integer, minimum: 1}
+          max_size: {type: integer, minimum: 1}
+          permutations: {type: integer, minimum: 1}
+          seed: {type: integer, minimum: 0}
+          resume: {type: boolean}
+          threads:
+            const: 1
+  reporting:
+    type: object
+    additionalProperties: false
+    required:
+      - report
+      - embeddings
+      - resource_logs
+    properties:
+      report:
+        type: object
+        additionalProperties: false
+        required:
+          - title
+          - artifact_hash_max_mb
+        properties:
+          title: {$ref: "#/$defs/non_empty_string"}
+          artifact_hash_max_mb:
+            type: number
+            minimum: 0
+      embeddings:
+        type: object
+        additionalProperties: false
+        required: [dpi, top_loadings, seed, threads]
+        properties:
+          dpi: {$ref: "#/$defs/dpi"}
+          top_loadings: {type: integer, minimum: 1}
+          seed: {type: integer, minimum: 0}
+          threads: {$ref: "#/$defs/threads"}
+      resource_logs:
+        type: object
+        additionalProperties: false
+        required: [directories, summaries]
+        properties:
+          directories:
+            type: array
+            items: {$ref: "#/$defs/non_empty_string"}
+          summaries:
+            type: array
+            items: {$ref: "#/$defs/non_empty_string"}
+  validation:
+    type: object
+    additionalProperties: false
+    required:
+      - graphst_root
+      - company_root
+      - graphst_resolutions
+      - threads
+    properties:
+      graphst_root: {$ref: "#/$defs/nullable_string"}
+      company_root: {$ref: "#/$defs/nullable_string"}
+      graphst_resolutions: {$ref: "#/$defs/number_list"}
+      threads: {$ref: "#/$defs/threads"}

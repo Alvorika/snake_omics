@@ -1,0 +1,25 @@
+.snakemake/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Rebuildable workflow outputs
+work/
+results/
+logs/
+
+# Project-local active inputs. Commit the defaults and *.template.* contracts,
+# not files that may later contain real sample identifiers or local paths.
+/config/config.yaml
+/config/samples.tsv
+/config/qc_reviews.tsv
+/config/roi_label_aliases.tsv
+/config/pathway_gene_sets.tsv
+
+# Local environment and editor files
+.venv/
+.env
+.idea/
+.vscode/

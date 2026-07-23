@@ -1,0 +1,60 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+type: object
+additionalProperties: true
+required:
+  - sample_id
+  - input_type
+  - input_path
+properties:
+  sample_id:
+    type: string
+    minLength: 1
+    pattern: "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+  input_type:
+    type: string
+    enum:
+      - spaceranger
+  input_path:
+    type: string
+    minLength: 1
+  animal_id:
+    type: string
+  biological_replicate:
+    type: string
+  technical_batch:
+    type: string
+  slide_id:
+    type: string
+  capture_area:
+    type: string
+  library_id:
+    type: string
+  assay:
+    type: string
+  species:
+    type: string
+  genome_reference:
+    type: string
+  probe_set:
+    type: string
+  probe_set_checksum:
+    type: string
+  section_level:
+    type: string
+  orientation:
+    type: string
+  genotype:
+    type: string
+    minLength: 1
+  treatment:
+    type: string
+    minLength: 1
+  condition:
+    type: string
+    minLength: 1
+  roi_path:
+    type: string
+  roi_barcode_column:
+    type: string
+  roi_label_column:
+    type: string

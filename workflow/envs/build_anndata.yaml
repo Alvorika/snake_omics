@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.11
+  - anndata=0.12.10
+  - scanpy=1.12.0
+  - h5py=3.16.0

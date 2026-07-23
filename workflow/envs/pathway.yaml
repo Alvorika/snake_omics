@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.11
+  - numpy=2.4.3
+  - pandas=2.3.3
+  - scipy=1.17.1
+  - gseapy=1.1.11

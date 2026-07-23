@@ -1,0 +1,239 @@
+# Repository-owned defaults. Project-specific changes belong in config.yaml.
+config_version: 1
+
+project:
+  name: spatial-transcriptomics
+
+samples: config/samples.tsv
+
+modules:
+  # `full` expands to the stable, self-contained analysis set. Modules that
+  # require external pathway resources or pre-existing resource logs, plus the
+  # specialized legacy comparator, are never included implicitly.
+  enabled:
+    - qc
+  auto_dependencies: true
+
+execution:
+  # Use `python` with Snakemake's conda deployment. A project may override this
+  # with an absolute interpreter while developing in an existing environment.
+  python: python
+
+resources:
+  roi_aliases: config/roi_label_aliases.tsv
+  pathway_gene_sets: config/pathway_gene_sets.tsv
+  # Optional display-only GO name mapping. It must be explicitly frozen and
+  # verified before use; null keeps GO IDs in figures.
+  go_obo: null
+
+input:
+  primary_matrix: filtered
+  use_raw_for_background_qc: true
+  unavailable_capability: report
+
+storage:
+  matrix_backend: h5ad
+  embed_fullres_image: false
+  embed_thumbnail: false
+  keep_ingested_checkpoint: true
+
+qc:
+  # Filtering is deliberately not part of the current MVP stage.
+  report_only: true
+  unavailable_metric: report
+  numeric_metrics:
+    in_tissue: true
+    total_counts: true
+    detected_genes: true
+    mitochondrial_fraction: true
+  checks:
+    image_alignment: true
+    spatial_artifacts: true
+  mitochondrial:
+    feature_column: gene_symbol
+    prefixes:
+      - MT-
+    case_sensitive: false
+  score:
+    enabled: true
+    method_version: "1.0.0"
+    profile: config/qc_profiles/unconfigured_v1.yaml
+    reviews: config/qc_reviews.tsv
+    minimum_coverage: 0.60
+    weights:
+      in_tissue: 20
+      total_counts: 10
+      detected_genes: 10
+      mitochondrial_fraction: 20
+      image_alignment: 20
+      spatial_artifacts: 20
+    status_points:
+      PASS: 100
+      WARN: 50
+      FAIL: 0
+    required_manual_components:
+      - image_alignment
+      - spatial_artifacts
+    hard_blockers:
+      - in_tissue
+      - image_alignment
+      - spatial_artifacts
+  plots:
+    numeric_overview:
+      histogram_bins: 60
+      dpi: 180
+    spot_complexity:
+      hexbin_gridsize: 60
+      dpi: 180
+    background_qc:
+      lower_quantile: 0.01
+      upper_quantile: 0.99
+      point_size: 5.0
+      dpi: 180
+    spatial_qc:
+      lower_quantile: 0.01
+      upper_quantile: 0.99
+      point_size: 6.0
+      dpi: 180
+    image_alignment:
+      image_preference:
+        - tissue_hires
+        - tissue_lowres
+        - aligned_tissue
+      spot_diameter_scale: 0.65
+      fallback_spot_diameter_px: 7.0
+      dpi: 180
+
+# Downstream modules are selected through modules.enabled; their parameter
+# defaults live here so each run records one complete merged configuration.
+analysis:
+  eligibility:
+    excluded_labels:
+      - Noise
+    barcode_match: exact_then_10x_suffix
+    orphan_roi_action: error
+    coordinate_bounds_action: review
+    report_only: true
+    threads: 1
+  preprocessing:
+    min_genes: 200
+    min_spots: 3
+    target_sum: 10000.0
+    n_top_genes: 3000
+    n_comps: 50
+    scale_max_value: 10.0
+    seed: 0
+    threads: 4
+  diagnostics:
+    max_pcs: 20
+    threads: 1
+  embedding:
+    n_pcs: 30
+    n_neighbors: 15
+    resolutions:
+      - 0.4
+      - 0.6
+      - 0.8
+    seeds:
+      - 0
+      - 1
+      - 2
+    primary_resolution: 0.6
+    primary_seed: 0
+    umap_min_dist: 0.5
+    threads: 4
+  spatial:
+    alpha: 0.3
+    resolution: 0.6
+    seeds:
+      - 0
+      - 1
+      - 2
+    primary_seed: 0
+    excluded_roi_labels:
+      - Noise
+      - Uncategorized
+    threads: 4
+  roi:
+    excluded_labels:
+      - Noise
+      - Uncategorized
+    min_genes: 200
+    min_roi_spots: 50
+    min_detected_spots: 10
+    min_detection_fraction: 0.05
+    log2_pseudocount: 1.0
+    threads: 1
+  svg:
+    gene_symbol_column: gene_symbol
+    excluded_roi_labels:
+      - Noise
+      - Uncategorized
+    min_genes: 200
+    component_min_spots: 20
+    gene_min_detected_spots: 15
+    gene_min_detection_fraction: 0.10
+    normalization_target_sum: 10000.0
+    screen_top_n: 50
+    permutations: 199
+    seed: 1729
+    score_block_size: 256
+    run_permutation: true
+    threads: 1
+  condition:
+    # `auto` uses the sample table to select a one-sample-per-cell descriptive
+    # branch or a biological-replicate PyDESeq2 branch. Ambiguous designs fail.
+    mode: auto
+    genotype_reference: null
+    genotype_alternative: null
+    treatment_reference: null
+    treatment_alternative: null
+    biological_unit_column: animal_id
+    batch_column: null
+    min_biological_replicates_per_cell: 3
+    min_roi_spots_per_unit: 50
+    min_total_gene_count: 10
+    size_factors_fit_type: poscounts
+    fit_type: parametric
+    alpha: 0.05
+    cooks_filter: true
+    independent_filter: true
+    refit_cooks: true
+    threads: 1
+  pathway:
+    # Set for a frozen pilot to guard expected task count; keep null for a new
+    # cohort whose number of complete ROI rankings is not known in advance.
+    expected_rankings: null
+    min_counts: 10
+    min_design_cells: 2
+    min_size: 5
+    max_size: 500
+    permutations: 100
+    seed: 0
+    resume: true
+    threads: 1
+
+reporting:
+  report:
+    title: Snake Omics run report
+    artifact_hash_max_mb: 256
+  embeddings:
+    dpi: 180
+    top_loadings: 8
+    seed: 0
+    threads: 1
+  resource_logs:
+    # Prefer explicit summary files for a frozen run. Directory discovery is
+    # supported for ad-hoc use but may include stale samples from older runs.
+    directories: []
+    summaries: []
+
+validation:
+  # External comparator roots are project-specific and remain optional.
+  graphst_root: null
+  company_root: null
+  graphst_resolutions:
+    - 0.4
+    - 0.6
+    - 0.8
+  threads: 1

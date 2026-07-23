@@ -1,0 +1,7 @@
+name: snake-omics
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - snakemake=9.23.1
+  - pandas=2.3.3

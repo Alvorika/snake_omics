@@ -1,6 +1,6 @@
 <p align="right">
-  <a href="./README.md"><kbd>中文</kbd></a>
-  <a href="./README_EN.md"><kbd>English</kbd></a>
+  <a href="./README.md"><kbd>English</kbd></a>
+  <a href="./README_CN.md"><kbd>中文</kbd></a>
 </p>
 
 # Snake Omics: a reusable spatial transcriptomics workflow

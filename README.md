@@ -9,9 +9,11 @@ Snake Omics is a config-driven Snakemake workflow for first-pass spatial
 transcriptomics analysis. It standardizes input validation, QC, core analysis,
 optional ROI/SVG/2×2 modules, and run reporting.
 
-The repository contains source code and templates only. It does not ship real
-data, project metadata, or test data. The supported v0.1 input contract is a
-**10x Genomics Space Ranger output directory**.
+The repository does not ship raw input data or private project metadata. It
+includes one real derived-output snapshot from public LIBD DLPFC sample
+`151673`; local absolute paths are redacted and the large H5AD checkpoints are
+omitted. The supported v0.1 input contract is a **10x Genomics Space Ranger
+output directory**.
 
 ## Quick start
 
@@ -54,6 +56,14 @@ snakemake \
 `work/` contains rebuildable intermediates, `results/` contains reviewable
 outputs, and `logs/` contains execution records. Interrupted runs can normally
 be resumed with the same command.
+
+## Public test fixture
+
+The [LIBD DLPFC 151673 fixture](tests/fixtures/libd_dlpfc_151673/README.md)
+provides a portable run configuration and the original 26 MiB `results/`
+snapshot, including the generated reader HTML, figures, and result tables.
+Raw Space Ranger input and the four large intermediate H5AD files are not
+included.
 
 ## Modules
 

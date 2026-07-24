@@ -1,0 +1,3 @@
+sample_id	component	decision	evidence	reviewer	reviewed_at	notes
+151673	image_alignment	PENDING	results/qc/151673/image_alignment_overlay.png			
+151673	spatial_artifacts	PENDING	results/qc/151673/spatial_qc_metrics.png			

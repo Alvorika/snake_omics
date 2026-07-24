@@ -1,0 +1,265 @@
+{
+  "analysis": {
+    "condition": {
+      "alpha": 0.05,
+      "batch_column": null,
+      "biological_unit_column": "animal_id",
+      "cooks_filter": true,
+      "fit_type": "parametric",
+      "genotype_alternative": null,
+      "genotype_reference": null,
+      "independent_filter": true,
+      "min_biological_replicates_per_cell": 3,
+      "min_roi_spots_per_unit": 50,
+      "min_total_gene_count": 10,
+      "mode": "auto",
+      "refit_cooks": true,
+      "size_factors_fit_type": "poscounts",
+      "threads": 1,
+      "treatment_alternative": null,
+      "treatment_reference": null
+    },
+    "diagnostics": {
+      "max_pcs": 20,
+      "threads": 1
+    },
+    "eligibility": {
+      "barcode_match": "exact_then_10x_suffix",
+      "coordinate_bounds_action": "review",
+      "excluded_labels": [
+        "Noise"
+      ],
+      "orphan_roi_action": "error",
+      "report_only": true,
+      "threads": 1
+    },
+    "embedding": {
+      "n_neighbors": 15,
+      "n_pcs": 30,
+      "primary_resolution": 0.6,
+      "primary_seed": 0,
+      "resolutions": [
+        0.4,
+        0.6,
+        0.8
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "threads": 4,
+      "umap_min_dist": 0.5
+    },
+    "pathway": {
+      "expected_rankings": null,
+      "max_size": 500,
+      "min_counts": 10,
+      "min_design_cells": 2,
+      "min_size": 5,
+      "permutations": 100,
+      "resume": true,
+      "seed": 0,
+      "threads": 1
+    },
+    "preprocessing": {
+      "min_genes": 200,
+      "min_spots": 3,
+      "n_comps": 50,
+      "n_top_genes": 3000,
+      "scale_max_value": 10.0,
+      "seed": 0,
+      "target_sum": 10000.0,
+      "threads": 4
+    },
+    "roi": {
+      "excluded_labels": [
+        "Noise",
+        "Uncategorized"
+      ],
+      "log2_pseudocount": 1.0,
+      "min_detected_spots": 10,
+      "min_detection_fraction": 0.05,
+      "min_genes": 200,
+      "min_roi_spots": 50,
+      "threads": 1
+    },
+    "spatial": {
+      "alpha": 0.3,
+      "excluded_roi_labels": [
+        "Noise",
+        "Uncategorized"
+      ],
+      "primary_seed": 0,
+      "resolution": 0.6,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "threads": 4
+    },
+    "svg": {
+      "component_min_spots": 20,
+      "excluded_roi_labels": [
+        "Noise",
+        "Uncategorized"
+      ],
+      "gene_min_detected_spots": 15,
+      "gene_min_detection_fraction": 0.1,
+      "gene_symbol_column": "gene_symbol",
+      "min_genes": 200,
+      "normalization_target_sum": 10000.0,
+      "permutations": 199,
+      "run_permutation": true,
+      "score_block_size": 256,
+      "screen_top_n": 50,
+      "seed": 1729,
+      "threads": 1
+    }
+  },
+  "config_version": 1,
+  "execution": {
+    "python": "<external>/REDACTED"
+  },
+  "input": {
+    "primary_matrix": "filtered",
+    "unavailable_capability": "report",
+    "use_raw_for_background_qc": true
+  },
+  "modules": {
+    "auto_dependencies": true,
+    "enabled": [
+      "qc",
+      "core",
+      "figures",
+      "report"
+    ]
+  },
+  "project": {
+    "name": "libd_dlpfc_151673_test"
+  },
+  "qc": {
+    "checks": {
+      "image_alignment": true,
+      "spatial_artifacts": true
+    },
+    "mitochondrial": {
+      "case_sensitive": false,
+      "feature_column": "gene_symbol",
+      "prefixes": [
+        "MT-"
+      ]
+    },
+    "numeric_metrics": {
+      "detected_genes": true,
+      "in_tissue": true,
+      "mitochondrial_fraction": true,
+      "total_counts": true
+    },
+    "plots": {
+      "background_qc": {
+        "dpi": 180,
+        "lower_quantile": 0.01,
+        "point_size": 5.0,
+        "upper_quantile": 0.99
+      },
+      "image_alignment": {
+        "dpi": 180,
+        "fallback_spot_diameter_px": 7.0,
+        "image_preference": [
+          "tissue_hires",
+          "tissue_lowres",
+          "aligned_tissue"
+        ],
+        "spot_diameter_scale": 0.65
+      },
+      "numeric_overview": {
+        "dpi": 180,
+        "histogram_bins": 60
+      },
+      "spatial_qc": {
+        "dpi": 180,
+        "lower_quantile": 0.01,
+        "point_size": 6.0,
+        "upper_quantile": 0.99
+      },
+      "spot_complexity": {
+        "dpi": 180,
+        "hexbin_gridsize": 60
+      }
+    },
+    "report_only": true,
+    "score": {
+      "enabled": true,
+      "hard_blockers": [
+        "in_tissue",
+        "image_alignment",
+        "spatial_artifacts"
+      ],
+      "method_version": "1.0.0",
+      "minimum_coverage": 0.6,
+      "profile": "config/qc_profiles/unconfigured_v1.yaml",
+      "required_manual_components": [
+        "image_alignment",
+        "spatial_artifacts"
+      ],
+      "reviews": "config/qc_reviews.tsv",
+      "status_points": {
+        "FAIL": 0,
+        "PASS": 100,
+        "WARN": 50
+      },
+      "weights": {
+        "detected_genes": 10,
+        "image_alignment": 20,
+        "in_tissue": 20,
+        "mitochondrial_fraction": 20,
+        "spatial_artifacts": 20,
+        "total_counts": 10
+      }
+    },
+    "unavailable_metric": "report"
+  },
+  "reporting": {
+    "embeddings": {
+      "dpi": 180,
+      "seed": 0,
+      "threads": 1,
+      "top_loadings": 8
+    },
+    "report": {
+      "artifact_hash_max_mb": 256,
+      "inline_image_max_mb": 2,
+      "inline_image_total_max_mb": 8,
+      "max_table_preview_rows": 20,
+      "title": "LIBD DLPFC 151673 spatial transcriptomics test run"
+    },
+    "resource_logs": {
+      "directories": [],
+      "summaries": []
+    }
+  },
+  "resources": {
+    "go_obo": null,
+    "pathway_gene_sets": "config/pathway_gene_sets.tsv",
+    "roi_aliases": "config/roi_label_aliases.tsv"
+  },
+  "samples": "config/samples.tsv",
+  "storage": {
+    "embed_fullres_image": false,
+    "embed_thumbnail": false,
+    "keep_ingested_checkpoint": true,
+    "matrix_backend": "h5ad"
+  },
+  "validation": {
+    "company_root": null,
+    "graphst_resolutions": [
+      0.4,
+      0.6,
+      0.8
+    ],
+    "graphst_root": null,
+    "threads": 1
+  }
+}

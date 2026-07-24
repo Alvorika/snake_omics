@@ -1,0 +1,10 @@
+resolution	seed_a	seed_b	cluster_key_a	cluster_key_b	adjusted_rand_index	n_clusters_a	n_clusters_b
+0.4	0	1	leiden_expr_r0p4_seed0	leiden_expr_r0p4_seed1	0.7336292136617631	4	4
+0.4	0	2	leiden_expr_r0p4_seed0	leiden_expr_r0p4_seed2	0.8741083391516693	4	4
+0.4	1	2	leiden_expr_r0p4_seed1	leiden_expr_r0p4_seed2	0.6927764284817255	4	4
+0.6	0	1	leiden_expr_r0p6_seed0	leiden_expr_r0p6_seed1	0.7327140288985563	4	6
+0.6	0	2	leiden_expr_r0p6_seed0	leiden_expr_r0p6_seed2	0.7597870988899357	4	5
+0.6	1	2	leiden_expr_r0p6_seed1	leiden_expr_r0p6_seed2	0.609020943794726	6	5
+0.8	0	1	leiden_expr_r0p8_seed0	leiden_expr_r0p8_seed1	0.6142105085116862	8	7
+0.8	0	2	leiden_expr_r0p8_seed0	leiden_expr_r0p8_seed2	0.7237353530107337	8	7
+0.8	1	2	leiden_expr_r0p8_seed1	leiden_expr_r0p8_seed2	0.6247759631338204	7	7

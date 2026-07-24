@@ -1,0 +1,30 @@
+{
+  "automated_pass_fail": false,
+  "coordinate_transform": "x=pxl_col_in_fullres*scale; y=pxl_row_in_fullres*scale",
+  "correction_applied": false,
+  "image_path": "<external>/151673/outs/spatial/tissue_hires_image.png",
+  "image_role": "tissue_hires",
+  "image_shape": {
+    "height": 2000,
+    "width": 2000
+  },
+  "in_tissue_reason": "",
+  "in_tissue_status": "available",
+  "n_in_tissue": 3639,
+  "n_out_of_tissue": 1353,
+  "n_outside_image": 0,
+  "n_positions": 4992,
+  "n_primary_matrix": 3639,
+  "positions_path": "<run-root>/work/ingested/151673.positions.tsv.gz",
+  "report_only": true,
+  "sample_id": "151673",
+  "scale": 0.150015,
+  "scale_key": "tissue_hires_scalef",
+  "scalefactors_path": "<external>/151673/outs/spatial/scalefactors_json.json",
+  "spot_diameter_fullres": 96.40082438014726,
+  "spot_diameter_image_px": 9.400020285102066,
+  "spot_diameter_source": "spot_diameter_fullres_x_scale",
+  "status": "plotted",
+  "transform_estimated": false,
+  "visual_review_required": true
+}

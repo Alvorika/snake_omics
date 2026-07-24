@@ -233,6 +233,44 @@ class HtmlReportTests(unittest.TestCase):
             self.assertEqual(summary["n_embedded_images"], 1)
             self.assertEqual(summary["embedded_image_bytes"], len(TINY_PNG))
 
+    def test_opaque_base64_is_not_mistaken_for_a_local_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            fixture = self._fixture(directory)
+            aligned_png = TINY_PNG + b"\x00" * (-len(TINY_PNG) % 3)
+            false_positive_payload = aligned_png + base64.b64decode(
+                "AAAA/SrV/AAA"
+            )
+            fixture["small"].write_bytes(false_positive_payload)
+            manifest = json.loads(
+                fixture["artifact_manifest"].read_text(encoding="utf-8")
+            )
+            manifest["artifacts"][0]["size_bytes"] = len(false_positive_payload)
+            fixture["artifact_manifest"].write_text(
+                json.dumps(manifest),
+                encoding="utf-8",
+            )
+
+            summary = self._build(fixture)
+            text = (fixture["report"] / "report.html").read_text(encoding="utf-8")
+
+            encoded = base64.b64encode(false_positive_payload).decode("ascii")
+            self.assertIn("/SrV/", encoded)
+            self.assertIn(f"data:image/png;base64,{encoded}", text)
+            self.assertEqual(summary["n_embedded_images"], 1)
+
+    def test_fake_image_data_uri_cannot_hide_a_local_path(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            fixture = self._fixture(directory)
+            summary_path = fixture["root"] / "results/qc/sample_01/summary.json"
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            local_path = "/" + "home" + "/private/data"
+            encoded = base64.b64encode(local_path.encode()).decode("ascii")
+            summary["status"] = f"data:image/png;base64,{encoded}"
+            summary_path.write_text(json.dumps(summary), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "local absolute-path"):
+                self._build(fixture)
+
     def test_unknown_registered_status_uses_generic_module_section(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             fixture = self._fixture(directory)

@@ -1,0 +1,91 @@
+{
+  "experimental_design_used": false,
+  "filtering_applied": false,
+  "method_version": "1.0.0",
+  "outputs": {
+    "components": "results/qc/qc_score_components.tsv",
+    "figure": "results/qc/qc_score_overview.png",
+    "summary": "results/qc/qc_score_summary.tsv"
+  },
+  "profile": {
+    "assays": [],
+    "description": "Safe starter profile. Numeric thresholds are intentionally unset, so the report shows UNCALIBRATED until the user selects a versioned assay profile.",
+    "profile_id": "unconfigured_v1",
+    "profile_version": 1,
+    "source": "config/qc_profiles/unconfigured_v1.yaml",
+    "thresholds": {
+      "detected_genes": {
+        "pass_at_or_above": null,
+        "warn_below": null
+      },
+      "mitochondrial_fraction": {
+        "pass_at_or_below": null,
+        "warn_at_or_below": null
+      },
+      "total_counts": {
+        "pass_at_or_above": null,
+        "warn_below": null
+      }
+    }
+  },
+  "report_only": true,
+  "reviews": {
+    "n_records": 2,
+    "source": "config/qc_reviews.tsv"
+  },
+  "sample_assays": {
+    "151673": "10x_Visium"
+  },
+  "samples": [
+    {
+      "coverage": 0.2,
+      "covered_weight": 20.0,
+      "evidence_components": 1,
+      "hard_blocked": false,
+      "hard_blocker_components": "",
+      "is_final": false,
+      "method_version": "1.0.0",
+      "missing_components": "total_counts,detected_genes,mitochondrial_fraction,image_alignment,spatial_artifacts",
+      "overall_state": "INSUFFICIENT_EVIDENCE",
+      "pending_components": "image_alignment,spatial_artifacts",
+      "profile_id": "unconfigured_v1",
+      "provisional": true,
+      "provisional_score": null,
+      "provisional_score_available": false,
+      "qc_score": null,
+      "sample_id": "151673",
+      "score_available": false,
+      "total_components": 6,
+      "total_weight": 100.0
+    }
+  ],
+  "schema_version": "1.0.0",
+  "score_semantics": {
+    "excluded_statuses": [
+      "NA",
+      "PENDING",
+      "UNCALIBRATED"
+    ],
+    "hard_blockers": [
+      "in_tissue",
+      "image_alignment",
+      "spatial_artifacts"
+    ],
+    "in_tissue_interpretation": "label and barcode integrity; tissue fraction is not scored",
+    "minimum_coverage": 0.6,
+    "status_points": {
+      "FAIL": 0,
+      "PASS": 100,
+      "WARN": 50
+    },
+    "weights": {
+      "detected_genes": 10,
+      "image_alignment": 20,
+      "in_tissue": 20,
+      "mitochondrial_fraction": 20,
+      "spatial_artifacts": 20,
+      "total_counts": 10
+    }
+  },
+  "status": "success"
+}

@@ -1,0 +1,192 @@
+{
+  "capabilities": {
+    "array_coordinates": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "automatic",
+      "reason": "Complete array_row/array_col coordinates are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "filtered_counts_matrix": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Filtered count matrix is available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "histology_image": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_hires_image.png",
+        "<external>/151673/outs/spatial/tissue_lowres_image.png"
+      ],
+      "mode": "automatic",
+      "reason": "At least one histology-related image is available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "in_tissue_labels": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "automatic",
+      "reason": "Complete binary in_tissue labels are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "mitochondrial_features": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Detected 13 mitochondrial features.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "molecule_level_data": {
+      "available": false,
+      "evidence": [
+        "<external>/151673/outs/molecule_info.h5"
+      ],
+      "mode": "automatic",
+      "reason": "molecule_info.h5 is unavailable.",
+      "status": "not_available",
+      "validation_level": "detected"
+    },
+    "pixel_coordinates": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "automatic",
+      "reason": "Complete full-resolution pixel coordinates are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "raw_counts_matrix": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/raw_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Raw barcode matrix is available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "raw_reads": {
+      "available": false,
+      "evidence": [],
+      "mode": "automatic",
+      "reason": "No FASTQ or BAM files were found within two directory levels.",
+      "status": "not_available",
+      "validation_level": "detected"
+    },
+    "registered_histology": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/spatial/scalefactors_json.json",
+        "<external>/151673/outs/spatial/tissue_hires_image.png",
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "automatic",
+      "reason": "Registered image candidate, pixel coordinates and scalefactors are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "upstream_metrics": {
+      "available": true,
+      "evidence": [
+        "<external>/151673/outs/metrics_summary.csv",
+        "<external>/151673/outs/web_summary.html"
+      ],
+      "mode": "automatic",
+      "reason": "Space Ranger summary metrics are available.",
+      "status": "available",
+      "validation_level": "detected"
+    }
+  },
+  "configuration": {
+    "mitochondrial": {
+      "case_sensitive": false,
+      "feature_column": "gene_symbol",
+      "prefixes": [
+        "MT-"
+      ]
+    }
+  },
+  "input_type": "spaceranger",
+  "qc_metrics": {
+    "detected_genes": {
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+        "<external>/151673/outs/raw_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Detected genes can be computed from the count matrix.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "image_alignment": {
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_hires_image.png",
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "visual_review",
+      "reason": "Registered image, pixel coordinates and scalefactors are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "in_tissue": {
+      "evidence": [
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "automatic",
+      "reason": "Binary in_tissue labels can be summarized.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "mitochondrial_fraction": {
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+        "<external>/151673/outs/raw_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Raw counts and mitochondrial features are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "spatial_artifacts": {
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+        "<external>/151673/outs/raw_feature_bc_matrix.h5",
+        "<external>/151673/outs/spatial/tissue_hires_image.png",
+        "<external>/151673/outs/spatial/tissue_positions_list.csv"
+      ],
+      "mode": "hybrid",
+      "reason": "Expression metrics, array coordinates and registered histology are available.",
+      "status": "available",
+      "validation_level": "detected"
+    },
+    "total_counts": {
+      "evidence": [
+        "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+        "<external>/151673/outs/raw_feature_bc_matrix.h5"
+      ],
+      "mode": "automatic",
+      "reason": "Raw-count semantics are declared by the 10x matrix format.",
+      "status": "available",
+      "validation_level": "detected"
+    }
+  },
+  "sample_id": "151673",
+  "schema_version": "0.1.0",
+  "source_manifest": "<run-root>/results/input/151673/input_manifest.json"
+}

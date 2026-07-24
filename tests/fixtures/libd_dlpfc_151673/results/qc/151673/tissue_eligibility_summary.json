@@ -1,0 +1,186 @@
+{
+  "conservation": {
+    "primary_state_total": 3639,
+    "primary_state_total_equals_primary": true,
+    "recommendation_total": 4992,
+    "recommendation_total_equals_positions": true,
+    "state_total": 4992,
+    "state_total_equals_positions": true
+  },
+  "decisions": {
+    "capture": {
+      "denominator": 4992,
+      "reason_counts": {
+        "COORDINATE_OUT_OF_IMAGE_BOUNDS": 0,
+        "ELIGIBILITY_SOURCE_UNAVAILABLE": 0,
+        "NOT_IN_PRIMARY_MATRIX": 1353,
+        "OUTSIDE_MANUAL_ROI": 0,
+        "ROI_LABEL_EXCLUDED": 0,
+        "ROI_LABEL_MISSING": 0,
+        "ROI_UNAVAILABLE": 0,
+        "TISSUE_SOURCE_CONFLICT": 0,
+        "UPSTREAM_OFF_TISSUE": 1353,
+        "ZERO_DETECTED_GENES": 0,
+        "ZERO_TOTAL_COUNTS": 0
+      },
+      "state_counts": {
+        "exclude": 1353,
+        "keep": 3639,
+        "not_evaluable": 0,
+        "review": 0
+      }
+    },
+    "n_recommended_exclude": 1353,
+    "n_recommended_keep": 3639,
+    "n_undetermined": 0,
+    "primary": {
+      "denominator": 3639,
+      "reason_counts": {
+        "COORDINATE_OUT_OF_IMAGE_BOUNDS": 0,
+        "ELIGIBILITY_SOURCE_UNAVAILABLE": 0,
+        "NOT_IN_PRIMARY_MATRIX": 0,
+        "OUTSIDE_MANUAL_ROI": 0,
+        "ROI_LABEL_EXCLUDED": 0,
+        "ROI_LABEL_MISSING": 0,
+        "ROI_UNAVAILABLE": 0,
+        "TISSUE_SOURCE_CONFLICT": 0,
+        "UPSTREAM_OFF_TISSUE": 0,
+        "ZERO_DETECTED_GENES": 0,
+        "ZERO_TOTAL_COUNTS": 0
+      },
+      "state_counts": {
+        "exclude": 0,
+        "keep": 3639,
+        "not_evaluable": 0,
+        "review": 0
+      }
+    },
+    "primary_reason_counts": {
+      "COORDINATE_OUT_OF_IMAGE_BOUNDS": 0,
+      "ELIGIBILITY_SOURCE_UNAVAILABLE": 0,
+      "NOT_IN_PRIMARY_MATRIX": 0,
+      "OUTSIDE_MANUAL_ROI": 0,
+      "ROI_LABEL_EXCLUDED": 0,
+      "ROI_LABEL_MISSING": 0,
+      "ROI_UNAVAILABLE": 0,
+      "TISSUE_SOURCE_CONFLICT": 0,
+      "UPSTREAM_OFF_TISSUE": 0,
+      "ZERO_DETECTED_GENES": 0,
+      "ZERO_TOTAL_COUNTS": 0
+    },
+    "primary_state_counts": {
+      "exclude": 0,
+      "keep": 3639,
+      "not_evaluable": 0,
+      "review": 0
+    },
+    "reason_counts": {
+      "COORDINATE_OUT_OF_IMAGE_BOUNDS": 0,
+      "ELIGIBILITY_SOURCE_UNAVAILABLE": 0,
+      "NOT_IN_PRIMARY_MATRIX": 1353,
+      "OUTSIDE_MANUAL_ROI": 0,
+      "ROI_LABEL_EXCLUDED": 0,
+      "ROI_LABEL_MISSING": 0,
+      "ROI_UNAVAILABLE": 0,
+      "TISSUE_SOURCE_CONFLICT": 0,
+      "UPSTREAM_OFF_TISSUE": 1353,
+      "ZERO_DETECTED_GENES": 0,
+      "ZERO_TOTAL_COUNTS": 0
+    },
+    "state_counts": {
+      "exclude": 1353,
+      "keep": 3639,
+      "not_evaluable": 0,
+      "review": 0
+    }
+  },
+  "filtering": {
+    "applied": false,
+    "input_h5ad_modified": false,
+    "input_h5ad_read": false
+  },
+  "grain": "one row per canonical capture-position barcode",
+  "integrity": {
+    "coordinate_bounds": {
+      "image_height": 2000,
+      "image_path": "<external>/151673/outs/spatial/tissue_hires_image.png",
+      "image_role": "tissue_hires",
+      "image_width": 2000,
+      "n_inside": 4992,
+      "n_not_available": 0,
+      "n_outside": 0,
+      "reason": "Compared full-resolution spot centres with the selected image bounds.",
+      "scale": 0.150015,
+      "scale_key": "tissue_hires_scalef",
+      "scalefactors_path": "<external>/151673/outs/spatial/scalefactors_json.json",
+      "status": "computed"
+    },
+    "n_positions": 4992,
+    "n_primary": 3639,
+    "n_source_in_tissue": 3639,
+    "n_source_out_of_tissue": 1353,
+    "n_source_unknown": 0,
+    "roi": {
+      "available": true,
+      "barcode_column": "Barcode",
+      "label_column": "annotation",
+      "match_method_counts": {
+        "10x_suffix_normalized": 0,
+        "exact": 3639
+      },
+      "n_canonical_members": 3639,
+      "n_excluded_label": 0,
+      "n_matched": 3639,
+      "n_orphan": 0,
+      "n_primary_members": 3639,
+      "n_rows": 3639,
+      "orphan_examples": [],
+      "primary_to_roi_coverage": 1.0,
+      "roi_to_position_coverage": 1.0,
+      "source": "<run-root>/inputs/derived/151673_spaceranger_tissue_mask.csv"
+    }
+  },
+  "output_columns": [
+    "barcode",
+    "sample_id",
+    "in_primary_matrix",
+    "source_in_tissue",
+    "total_counts",
+    "n_genes_by_counts",
+    "roi_member",
+    "roi_label",
+    "roi_barcode_original",
+    "barcode_match_method",
+    "array_row",
+    "array_col",
+    "pxl_row_in_fullres",
+    "pxl_col_in_fullres",
+    "coordinate_bounds_status",
+    "eligibility_state",
+    "recommended_keep",
+    "reason_codes"
+  ],
+  "output_summary": "<run-root>/results/qc/151673/tissue_eligibility_summary.json",
+  "output_table": "<run-root>/results/qc/151673/tissue_eligibility.tsv.gz",
+  "parameters": {
+    "barcode_match": "exact_then_10x_suffix",
+    "coordinate_bounds_action": "review",
+    "excluded_labels": [
+      "noise"
+    ],
+    "image_preference": [
+      "tissue_hires",
+      "tissue_lowres",
+      "aligned_tissue"
+    ],
+    "orphan_roi_action": "error",
+    "report_only": true,
+    "roi_role": "whitelist"
+  },
+  "sample_id": "151673",
+  "schema_version": "0.1.0",
+  "source_manifest": "<run-root>/results/input/151673/input_manifest.json",
+  "source_metrics": "<run-root>/results/qc/151673/spot_metrics.tsv.gz",
+  "source_positions": "<run-root>/work/ingested/151673.positions.tsv.gz",
+  "status": "success"
+}

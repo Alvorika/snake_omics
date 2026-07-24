@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import binascii
 import csv
 import fnmatch
 import gzip
@@ -73,6 +74,10 @@ FINAL_LOCAL_PATH_PATTERN = re.compile(
     r"/(?:home|users|private|mnt|tmp|var/tmp|root|workspace|data|srv|opt)/"
     r")"
 )
+INLINE_IMAGE_DATA_URI_PATTERN = re.compile(
+    r"data:(?P<mime>image/[A-Za-z0-9.+-]+);base64,"
+    r"(?P<payload>[A-Za-z0-9+/=]+)"
+)
 
 
 def _atomic_text(path: str | Path, text: str) -> None:
@@ -84,6 +89,24 @@ def _atomic_text(path: str | Path, text: str) -> None:
         os.replace(temporary, output)
     finally:
         temporary.unlink(missing_ok=True)
+
+
+def _auditable_image_data_uris(text: str) -> str:
+    def replace(match: re.Match[str]) -> str:
+        try:
+            decoded = base64.b64decode(
+                match.group("payload"),
+                validate=True,
+            )
+        except (binascii.Error, ValueError):
+            return match.group(0)
+        # Audit decoded printable content rather than the Base64 alphabet.
+        # This avoids random encoded tokens such as `/SrV/`, while paths hidden
+        # in text, SVG, image metadata, or a fake image payload stay visible.
+        decoded_text = decoded.decode("utf-8", errors="ignore")
+        return f"data:{match.group('mime')};base64,<binary>{decoded_text}"
+
+    return INLINE_IMAGE_DATA_URI_PATTERN.sub(replace, text)
 
 
 def _atomic_status_table(path: str | Path, rows: list[dict[str, str]]) -> None:
@@ -1148,7 +1171,13 @@ def build_html_report(
             "Rendered HTML exceeds the fixed 15 MiB safety limit; reduce "
             "inline images or preview rows"
         )
-    if str(root) in document or FINAL_LOCAL_PATH_PATTERN.search(document):
+    # Base64 text can randomly contain path-like tokens. Audit its decoded
+    # printable content instead, while leaving the delivered document unchanged.
+    auditable_document = _auditable_image_data_uris(document)
+    if (
+        str(root) in auditable_document
+        or FINAL_LOCAL_PATH_PATTERN.search(auditable_document)
+    ):
         raise ValueError("Rendered HTML contains a local absolute-path reference")
     _atomic_text(output, document)
     if module_status_output_path is not None:

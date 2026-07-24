@@ -1,0 +1,13 @@
+# Raw inputs and local run state are not part of the example snapshot.
+/inputs/
+/.snakemake/
+/logs/
+/benchmarks/
+
+# Keep the small work-side provenance files, but not rebuildable AnnData
+# checkpoints (the original four checkpoints total about 142 MiB).
+/work/**/*.h5ad
+
+# Local overrides.
+*.local.yaml
+*.local.tsv

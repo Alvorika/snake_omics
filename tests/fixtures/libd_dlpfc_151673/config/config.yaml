@@ -1,0 +1,29 @@
+config_version: 1
+
+project:
+  name: libd_dlpfc_151673_test
+
+samples: config/samples.tsv
+
+modules:
+  enabled:
+    - qc
+    - core
+    - figures
+    - report
+  auto_dependencies: true
+
+execution:
+  python: python
+
+resources:
+  roi_aliases: config/roi_label_aliases.tsv
+
+qc:
+  score:
+    profile: config/qc_profiles/unconfigured_v1.yaml
+    reviews: config/qc_reviews.tsv
+
+reporting:
+  report:
+    title: LIBD DLPFC 151673 spatial transcriptomics test run

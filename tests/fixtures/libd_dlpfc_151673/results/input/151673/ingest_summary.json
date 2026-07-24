@@ -1,0 +1,49 @@
+{
+  "external_images": {
+    "registered_candidate": "<external>/151673/outs/spatial/tissue_hires_image.png",
+    "tissue_hires": "<external>/151673/outs/spatial/tissue_hires_image.png",
+    "tissue_lowres": "<external>/151673/outs/spatial/tissue_lowres_image.png"
+  },
+  "full_resolution_image_embedded": false,
+  "matrix": {
+    "X_dtype": "float32",
+    "X_semantics": "raw_counts",
+    "X_storage": "csr",
+    "counts_layer_created": false,
+    "duplicate_gene_symbols_preserved": 24,
+    "var_names": "gene_id"
+  },
+  "output_h5ad": "<run-root>/work/ingested/151673.h5ad",
+  "output_positions": "<run-root>/work/ingested/151673.positions.tsv.gz",
+  "positions": {
+    "in_tissue_counts_all_positions": {
+      "0": 1353,
+      "1": 3639
+    },
+    "matrix_barcodes_with_positions": 3639,
+    "obsm_keys": [
+      "spatial_array",
+      "spatial"
+    ],
+    "position_columns_attached": [
+      "in_tissue",
+      "array_row",
+      "array_col",
+      "pxl_row_in_fullres",
+      "pxl_col_in_fullres"
+    ],
+    "position_rows": 4992
+  },
+  "primary_matrix": "filtered",
+  "sample_id": "151673",
+  "schema_version": "0.1.0",
+  "shape": {
+    "n_features": 33538,
+    "n_spots": 3639,
+    "nnz": 8021506
+  },
+  "source_manifest": "<run-root>/results/input/151673/input_manifest.json",
+  "source_matrix": "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+  "source_matrix_format": "10x_h5",
+  "status": "success"
+}

@@ -1,0 +1,259 @@
+{
+  "artifacts": {
+    "features": {
+      "available": true,
+      "feature_type_counts": {
+        "Gene Expression": 33538
+      },
+      "n_features": 33538,
+      "source": "<external>/151673/outs/filtered_feature_bc_matrix.h5"
+    },
+    "filtered_matrix": {
+      "available": true,
+      "dimension_sources": {
+        "directory": null,
+        "h5": {
+          "n_barcodes": 3639,
+          "n_features": 33538,
+          "nnz": 8021506
+        }
+      },
+      "dimensions": {
+        "n_barcodes": 3639,
+        "n_features": 33538,
+        "nnz": 8021506
+      },
+      "directory": {
+        "complete": false,
+        "exists": false,
+        "files": {
+          "barcodes": null,
+          "features": null,
+          "matrix": null
+        },
+        "missing_components": [
+          "matrix",
+          "barcodes",
+          "features"
+        ],
+        "path": "<external>/151673/outs/filtered_feature_bc_matrix"
+      },
+      "h5": {
+        "exists": true,
+        "kind": "file",
+        "non_empty": true,
+        "path": "<external>/151673/outs/filtered_feature_bc_matrix.h5",
+        "size_bytes": 12887164,
+        "state": "present"
+      },
+      "matrix_semantics": "raw_counts",
+      "selected_format": "10x_h5",
+      "selected_path": "<external>/151673/outs/filtered_feature_bc_matrix.h5"
+    },
+    "images": {
+      "all": [
+        {
+          "exists": true,
+          "kind": "file",
+          "non_empty": true,
+          "path": "<external>/151673/outs/spatial/tissue_hires_image.png",
+          "size_bytes": 6148725,
+          "state": "present"
+        },
+        {
+          "exists": true,
+          "kind": "file",
+          "non_empty": true,
+          "path": "<external>/151673/outs/spatial/tissue_lowres_image.png",
+          "size_bytes": 483861,
+          "state": "present"
+        }
+      ],
+      "available": true,
+      "named": {
+        "aligned_tissue": null,
+        "cytassist": null,
+        "detected_tissue": null,
+        "tissue_hires": {
+          "exists": true,
+          "kind": "file",
+          "non_empty": true,
+          "path": "<external>/151673/outs/spatial/tissue_hires_image.png",
+          "size_bytes": 6148725,
+          "state": "present"
+        },
+        "tissue_lowres": {
+          "exists": true,
+          "kind": "file",
+          "non_empty": true,
+          "path": "<external>/151673/outs/spatial/tissue_lowres_image.png",
+          "size_bytes": 483861,
+          "state": "present"
+        }
+      },
+      "registered_candidate": {
+        "exists": true,
+        "kind": "file",
+        "non_empty": true,
+        "path": "<external>/151673/outs/spatial/tissue_hires_image.png",
+        "size_bytes": 6148725,
+        "state": "present"
+      }
+    },
+    "metrics_summary": {
+      "exists": true,
+      "kind": "file",
+      "non_empty": true,
+      "path": "<external>/151673/outs/metrics_summary.csv",
+      "size_bytes": 682,
+      "state": "present"
+    },
+    "molecule_info": {
+      "exists": false,
+      "kind": "file",
+      "path": "<external>/151673/outs/molecule_info.h5",
+      "state": "missing"
+    },
+    "positions": {
+      "available": true,
+      "columns": [
+        "barcode",
+        "in_tissue",
+        "array_row",
+        "array_col",
+        "pxl_row_in_fullres",
+        "pxl_col_in_fullres"
+      ],
+      "duplicate_barcodes": 0,
+      "file": {
+        "exists": true,
+        "kind": "file",
+        "non_empty": true,
+        "path": "<external>/151673/outs/spatial/tissue_positions_list.csv",
+        "size_bytes": 186583,
+        "state": "present"
+      },
+      "format": "legacy_csv",
+      "in_tissue_counts": {
+        "0": 1353,
+        "1": 3639
+      },
+      "missing_value_counts": {
+        "array_col": 0,
+        "array_row": 0,
+        "barcode": 0,
+        "in_tissue": 0,
+        "pxl_col_in_fullres": 0,
+        "pxl_row_in_fullres": 0
+      },
+      "row_count": 4992
+    },
+    "probe_set": {
+      "exists": false,
+      "kind": "file",
+      "path": "<external>/151673/outs/probe_set.csv",
+      "state": "missing"
+    },
+    "raw_matrix": {
+      "available": true,
+      "dimension_sources": {
+        "directory": null,
+        "h5": {
+          "n_barcodes": 4992,
+          "n_features": 33538,
+          "nnz": 9120826
+        }
+      },
+      "dimensions": {
+        "n_barcodes": 4992,
+        "n_features": 33538,
+        "nnz": 9120826
+      },
+      "directory": {
+        "complete": false,
+        "exists": false,
+        "files": {
+          "barcodes": null,
+          "features": null,
+          "matrix": null
+        },
+        "missing_components": [
+          "matrix",
+          "barcodes",
+          "features"
+        ],
+        "path": "<external>/151673/outs/raw_feature_bc_matrix"
+      },
+      "h5": {
+        "exists": true,
+        "kind": "file",
+        "non_empty": true,
+        "path": "<external>/151673/outs/raw_feature_bc_matrix.h5",
+        "size_bytes": 14566416,
+        "state": "present"
+      },
+      "matrix_semantics": "raw_counts",
+      "selected_format": "10x_h5",
+      "selected_path": "<external>/151673/outs/raw_feature_bc_matrix.h5"
+    },
+    "scalefactors": {
+      "file": {
+        "exists": true,
+        "kind": "file",
+        "non_empty": true,
+        "path": "<external>/151673/outs/spatial/scalefactors_json.json",
+        "size_bytes": 162,
+        "state": "present"
+      },
+      "top_level_keys": [
+        "fiducial_diameter_fullres",
+        "spot_diameter_fullres",
+        "tissue_hires_scalef",
+        "tissue_lowres_scalef"
+      ],
+      "valid_json": true
+    },
+    "sequence_files": {
+      "bam_count": 0,
+      "bam_paths": [],
+      "fastq_count": 0,
+      "fastq_paths": [],
+      "path_list_truncated": false
+    },
+    "web_summary": {
+      "exists": false,
+      "kind": "file",
+      "path": "<external>/151673/outs/web_summary.html",
+      "state": "missing"
+    }
+  },
+  "coordinate_contract": {
+    "array_coordinates": {
+      "target_key": "obsm['spatial_array']",
+      "x": "array_col",
+      "y": "array_row"
+    },
+    "in_tissue_target": "obs['in_tissue']",
+    "pixel_coordinates": {
+      "target_key": "obsm['spatial']",
+      "x": "pxl_col_in_fullres",
+      "y": "pxl_row_in_fullres"
+    }
+  },
+  "detected_format": "10x_spaceranger_output",
+  "detected_layout": "expanded_outs",
+  "input_path": "<external>/151673/outs",
+  "input_type": "spaceranger",
+  "resolved_data_root": "<external>/151673/outs",
+  "sample_id": "151673",
+  "schema_version": "0.1.0",
+  "source_policy": {
+    "effective_primary_matrix": "filtered",
+    "full_resolution_image_embedded_in_anndata": false,
+    "primary_matrix": "filtered",
+    "raw_input_is_read_only": true,
+    "raw_matrix_role": "capture_area_background_qc",
+    "unavailable_capability": "report"
+  },
+  "warnings": []
+}

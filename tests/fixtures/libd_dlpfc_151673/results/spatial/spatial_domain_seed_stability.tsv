@@ -1,0 +1,7 @@
+scope	sample_id	seed_a	seed_b	cluster_key_a	cluster_key_b	n_spots	n_domains_a	n_domains_b	adjusted_rand_index
+cohort	__all__	0	1	spatial_domain_seed0	spatial_domain_seed1	3636	6	4	0.6210160806286119
+cohort	__all__	0	2	spatial_domain_seed0	spatial_domain_seed2	3636	6	5	0.7193168247364072
+cohort	__all__	1	2	spatial_domain_seed1	spatial_domain_seed2	3636	4	5	0.6782999240819171
+sample	151673	0	1	spatial_domain_seed0	spatial_domain_seed1	3636	6	4	0.6210160806286119
+sample	151673	0	2	spatial_domain_seed0	spatial_domain_seed2	3636	6	5	0.7193168247364072
+sample	151673	1	2	spatial_domain_seed1	spatial_domain_seed2	3636	4	5	0.6782999240819171

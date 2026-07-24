@@ -1,0 +1,3 @@
+scope	sample_id	n_spots	n_undirected_edges	mean_degree	median_degree	min_degree	max_degree	n_components	n_isolated_spots	largest_component_spots	largest_component_fraction	cross_sample_undirected_edges
+sample	151673	3636	10546	5.8008800880088005	6.0	0	6	6	1	3618	0.995049504950495	0
+cohort	__all__	3636	10546	5.8008800880088005	6.0	0	6	6	1	3618	0.995049504950495	0

@@ -1,0 +1,11 @@
+module	status	status_detail	stability	description
+qc	review_required	At least one sample lacks a final six-component QC score	stable	Input standardization, six QC checks, and QC readiness score.
+core	completed		stable	Eligibility, PCA, expression clustering, and spatial domains.
+roi	not_requested		stable	ROI coverage, pseudobulk, and ROI-versus-rest effects.
+svg	not_requested		stable	Within-sample, within-ROI spatially variable gene candidates.
+condition_2x2	not_requested		stable	Descriptive or replicated two-factor 2x2 analysis.
+pathway	not_requested		stable	Preranked pathways from descriptive 2x2 contrasts.
+figures	completed		stable	Source-backed figures for completed core outputs.
+resource_report	not_requested		stable	CPU, memory, elapsed-time, and disk-monitor summaries.
+report	pending_reader_html	Report assets are ready; the reader-facing HTML is not built yet	stable	Run metadata, module status, and large-file artifact index.
+external_validation	not_requested		specialized	Legacy external-result comparator with a fixed adapter contract.

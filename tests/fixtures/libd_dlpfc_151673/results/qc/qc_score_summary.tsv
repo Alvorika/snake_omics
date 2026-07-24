@@ -1,0 +1,2 @@
+sample_id	qc_score	score_available	provisional_score	provisional_score_available	coverage	covered_weight	total_weight	evidence_components	total_components	overall_state	provisional	is_final	hard_blocked	hard_blocker_components	pending_components	missing_components	profile_id	method_version
+151673		False		False	0.2	20.0	100.0	1	6	INSUFFICIENT_EVIDENCE	True	False	False		image_alignment,spatial_artifacts	total_counts,detected_genes,mitochondrial_fraction,image_alignment,spatial_artifacts	unconfigured_v1	1.0.0

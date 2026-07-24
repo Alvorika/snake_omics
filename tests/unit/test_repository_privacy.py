@@ -8,6 +8,9 @@ from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 MAX_COMMITTED_FILE_BYTES = 5 * 1024 * 1024
+PUBLIC_FIXTURE_LARGE_FILES = {
+    Path("tests/fixtures/libd_dlpfc_151673/results/report/report.html"),
+}
 
 # Keep project-specific values assembled from fragments: the privacy test must not
 # trigger on its own source while it searches every prospective committed file.
@@ -85,7 +88,13 @@ FORBIDDEN_DATA_FILENAMES = {
     "tissue_lowres_image.png",
 }
 
-ROOT_GENERATED_DIRECTORIES = {".snakemake", "work", "results", "logs"}
+ROOT_GENERATED_DIRECTORIES = {
+    ".snakemake",
+    "inputs",
+    "work",
+    "results",
+    "logs",
+}
 ANY_LEVEL_GENERATED_DIRECTORIES = {
     "__pycache__",
     ".pytest_cache",
@@ -202,9 +211,10 @@ class RepositoryPrivacyTest(unittest.TestCase):
         }
         required_entries = {
             ".snakemake/",
-            "work/",
-            "results/",
-            "logs/",
+            "/work/",
+            "/results/",
+            "/logs/",
+            "/inputs/",
             "__pycache__/",
             "*.py[cod]",
             "/config/config.yaml",
@@ -248,7 +258,10 @@ class RepositoryPrivacyTest(unittest.TestCase):
                 continue
 
             size = path.stat().st_size
-            if size > MAX_COMMITTED_FILE_BYTES:
+            if (
+                size > MAX_COMMITTED_FILE_BYTES
+                and relative not in PUBLIC_FIXTURE_LARGE_FILES
+            ):
                 issues.append(
                     f"{display}: {size} bytes exceeds the 5 MiB source-file limit"
                 )

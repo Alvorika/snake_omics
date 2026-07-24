@@ -1,0 +1,2 @@
+sample_id	input_type	input_path	assay	species	genome_reference	genotype	treatment	condition	roi_path	roi_barcode_column	roi_label_column
+151673	spaceranger	REPLACE_WITH_151673_SPACERANGER_OUTS	10x_Visium	Homo_sapiens	GRCh38	not_provided	not_provided	not_provided	REPLACE_WITH_151673_WHOLE_TISSUE_MASK_CSV	Barcode	annotation

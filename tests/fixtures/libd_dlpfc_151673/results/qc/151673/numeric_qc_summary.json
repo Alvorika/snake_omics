@@ -1,0 +1,148 @@
+{
+  "filtering": {
+    "applied": false,
+    "n_spots_after": 3639,
+    "n_spots_before": 3639
+  },
+  "metrics": {
+    "detected_genes": {
+      "capability_status": "available",
+      "distribution": {
+        "max": 5471.0,
+        "mean": 2204.3160208848585,
+        "median": 2113.0,
+        "min": 167.0,
+        "n": 3639,
+        "n_missing": 0,
+        "q25": 1612.0,
+        "q75": 2744.0
+      },
+      "output_columns": [
+        "n_genes_by_counts"
+      ],
+      "reason": "Computed as the number of positive-count genes per spot.",
+      "requested": true,
+      "status": "computed"
+    },
+    "in_tissue": {
+      "capability_status": "available",
+      "capture_area": {
+        "fraction_in_tissue": 0.7289663461538461,
+        "n_in_tissue": 3639,
+        "n_labeled": 4992,
+        "n_out_of_tissue": 1353,
+        "n_positions": 4992,
+        "source": "<run-root>/work/ingested/151673.positions.tsv.gz",
+        "status": "computed"
+      },
+      "distribution": {
+        "max": 1.0,
+        "mean": 1.0,
+        "median": 1.0,
+        "min": 1.0,
+        "n": 3639,
+        "n_missing": 0,
+        "q25": 1.0,
+        "q75": 1.0
+      },
+      "output_columns": [
+        "in_tissue"
+      ],
+      "reason": "Copied binary labels from canonical AnnData obs.",
+      "requested": true,
+      "status": "computed"
+    },
+    "mitochondrial_fraction": {
+      "capability_status": "available",
+      "distribution": {
+        "max": 0.3302292251586914,
+        "mean": 0.1674704322188593,
+        "median": 0.16652120590209962,
+        "min": 0.04852686405181885,
+        "n": 3639,
+        "n_missing": 0,
+        "q25": 0.1401445722579956,
+        "q75": 0.1941197681427002
+      },
+      "n_features": 13,
+      "output_columns": [
+        "total_counts_mt",
+        "pct_counts_mt",
+        "mitochondrial_fraction"
+      ],
+      "reason": "Matched 13 mitochondrial features.",
+      "requested": true,
+      "status": "computed"
+    },
+    "total_counts": {
+      "capability_status": "available",
+      "distribution": {
+        "max": 17438.0,
+        "mean": 4589.520472657324,
+        "median": 4120.0,
+        "min": 210.0,
+        "n": 3639,
+        "n_missing": 0,
+        "q25": 2893.0,
+        "q75": 5920.5
+      },
+      "output_columns": [
+        "total_counts"
+      ],
+      "reason": "Computed from the raw-count X matrix with Scanpy.",
+      "requested": true,
+      "status": "computed"
+    }
+  },
+  "output_columns": [
+    "barcode",
+    "sample_id",
+    "array_row",
+    "array_col",
+    "pxl_row_in_fullres",
+    "pxl_col_in_fullres",
+    "in_tissue",
+    "total_counts",
+    "n_genes_by_counts",
+    "total_counts_mt",
+    "pct_counts_mt",
+    "mitochondrial_fraction"
+  ],
+  "output_metrics": "<run-root>/results/qc/151673/spot_metrics.tsv.gz",
+  "parameters": {
+    "mitochondrial": {
+      "case_sensitive": false,
+      "feature_column": "gene_symbol",
+      "prefixes": [
+        "MT-"
+      ]
+    },
+    "numeric_metrics": {
+      "detected_genes": true,
+      "in_tissue": true,
+      "mitochondrial_fraction": true,
+      "total_counts": true
+    },
+    "report_only": true,
+    "scanpy": {
+      "inplace": false,
+      "log1p": false,
+      "percent_top": null
+    },
+    "unavailable_metric": "report"
+  },
+  "sample_id": "151673",
+  "schema_version": "0.1.0",
+  "shape": {
+    "n_features": 33538,
+    "n_spots": 3639
+  },
+  "software": {
+    "anndata": "0.12.19",
+    "scanpy": "1.11.5"
+  },
+  "source_capabilities": "<run-root>/results/input/151673/capabilities.json",
+  "source_h5ad": "<run-root>/work/ingested/151673.h5ad",
+  "source_positions": "<run-root>/work/ingested/151673.positions.tsv.gz",
+  "status": "success"
+}

@@ -1,0 +1,5 @@
+scope	sample_id	candidate_labeling	reference_labeling	n_scope_spots	n_evaluable_spots	n_excluded_spots	n_missing_roi_labels	n_roi_labels	n_candidate_labels	adjusted_rand_index	normalized_mutual_information	reference_role
+cohort	__all__	expression_cluster	roi_label_canonical	3636	3636	0	0	1	4	0.0	0.0	external_reference_not_ground_truth
+cohort	__all__	spatial_domain	roi_label_canonical	3636	3636	0	0	1	6	0.0	0.0	external_reference_not_ground_truth
+sample	151673	expression_cluster	roi_label_canonical	3636	3636	0	0	1	4	0.0	0.0	external_reference_not_ground_truth
+sample	151673	spatial_domain	roi_label_canonical	3636	3636	0	0	1	6	0.0	0.0	external_reference_not_ground_truth

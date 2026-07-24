@@ -1,0 +1,35 @@
+{
+  "artifact_hash_max_mb": 256.0,
+  "config": {
+    "path": "config/config.yaml",
+    "sha256": "688ec44875cc2624039aadecff7db72c9aa4d55738cb95d88e8f845abf435cbf"
+  },
+  "defaults": {
+    "path": "config/defaults.yaml",
+    "sha256": "550c504d0cffa7c89f5d599c36dfec4c3be6d8b4813f33fe797c5d956921d248"
+  },
+  "effective_config": {
+    "path": "results/report/effective_config.json",
+    "sha256": "e1b07f5408d5f623d766f089a515198cde87a2c40fdb96b77ff91916d6b15903"
+  },
+  "experiment_design_included": false,
+  "generated_at_utc": "2026-07-24T05:26:48.696063+00:00",
+  "git_commit": null,
+  "n_artifacts": 57,
+  "project_name": "libd_dlpfc_151673_test",
+  "samples": {
+    "path": "config/samples.tsv",
+    "sha256": "14bc22aaf7f7f4a4c1c8997b81658ff689f5f587c282704641ecb0ef6974da71"
+  },
+  "schema_version": "1.0.0",
+  "selected_modules": [
+    "qc",
+    "core",
+    "figures",
+    "report"
+  ],
+  "software": {
+    "snakemake": "9.23.1"
+  },
+  "title": "LIBD DLPFC 151673 spatial transcriptomics test run"
+}

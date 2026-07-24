@@ -1,0 +1,179 @@
+{
+  "clustering": {
+    "adjacency": "joint_connectivities",
+    "algorithm": "Leiden",
+    "primary_domain_counts": {
+      "0": 915,
+      "1": 518,
+      "2": 394,
+      "3": 524,
+      "4": 690,
+      "5": 595
+    },
+    "uses_umap_coordinates": false
+  },
+  "expression_cluster_comparison": [
+    {
+      "adjusted_rand_index": 0.6693131028440906,
+      "n_expression_clusters": 4,
+      "n_spatial_domains": 6,
+      "n_spots": 3636,
+      "normalized_mutual_information": 0.7277264090498627,
+      "sample_id": "__all__",
+      "scope": "cohort"
+    },
+    {
+      "adjusted_rand_index": 0.6693131028440906,
+      "n_expression_clusters": 4,
+      "n_spatial_domains": 6,
+      "n_spots": 3636,
+      "normalized_mutual_information": 0.7277264090498627,
+      "sample_id": "151673",
+      "scope": "sample"
+    }
+  ],
+  "input_h5ad": "<run-root>/work/embeddings/cohort_expression_graph.h5ad",
+  "joint_graph": {
+    "expression_cross_sample_undirected_edges": 0,
+    "expression_undirected_edges": 41677,
+    "formula": "symmetrize((1 - alpha) * expression_neighbors_connectivities + alpha * row_normalize(native_visium_spatial_adjacency))",
+    "joint_cross_sample_undirected_edges": 0,
+    "joint_undirected_edges": 51244,
+    "spatial_undirected_edges": 10546,
+    "symmetrization": "(joint_unsym + joint_unsym.T) / 2"
+  },
+  "n_genes": 19151,
+  "n_samples": 1,
+  "n_spots": 3636,
+  "outputs": {
+    "expression_comparison": "<run-root>/results/spatial/expression_vs_spatial_domains.tsv",
+    "graph_qc": "<run-root>/results/spatial/spatial_graph_qc.tsv",
+    "h5ad": "<run-root>/work/spatial/cohort_spatial_domains.h5ad",
+    "roi_validation": "<run-root>/results/spatial/domain_roi_validation.tsv",
+    "seed_stability": "<run-root>/results/spatial/spatial_domain_seed_stability.tsv",
+    "spatial_continuity": "<run-root>/results/spatial/spatial_continuity.tsv",
+    "spots": "<run-root>/results/spatial/spatial_domain_spots.tsv.gz"
+  },
+  "parameters": {
+    "alpha": 0.3,
+    "primary_seed": 0,
+    "resolution": 0.6,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "roi_reference": {
+    "alias_mapping": {
+      "applications": [
+        {
+          "canonical_label": "SpaceRanger_in_tissue",
+          "n_spots": 3636,
+          "notes": "Identity mapping for the Space Ranger in_tissue analysis mask; not an anatomical ROI.",
+          "source_label": "SpaceRanger_in_tissue",
+          "status": "derived_technical_mask"
+        }
+      ],
+      "mode": "exact_only_no_fuzzy_matching",
+      "path": "<run-root>/config/roi_label_aliases.tsv",
+      "review_required_rows": [],
+      "rows": [
+        {
+          "canonical_label": "SpaceRanger_in_tissue",
+          "notes": "Identity mapping for the Space Ranger in_tissue analysis mask; not an anatomical ROI.",
+          "source_label": "SpaceRanger_in_tissue",
+          "status": "derived_technical_mask"
+        }
+      ]
+    },
+    "barcode_matching": "exact_only_no_suffix_normalization",
+    "excluded_labels_exact": [
+      "Noise",
+      "Uncategorized"
+    ],
+    "interpretation_boundary": "ARI/NMI measure concordance with manual ROI labels; the ROI labels are an external reference, not ground truth. Alias rows marked as requiring review remain project assumptions.",
+    "join_coverage": [
+      {
+        "n_checkpoint_spots": 3636,
+        "n_checkpoint_unmatched": 0,
+        "n_eligibility_rows": 4992,
+        "n_eligibility_rows_not_in_checkpoint": 1356,
+        "n_exact_barcode_matches": 3636,
+        "sample_id": "151673"
+      }
+    ],
+    "join_key": [
+      "sample_id",
+      "barcode"
+    ],
+    "n_validation_excluded": 0,
+    "n_validation_included": 3636,
+    "role": "external_reference_not_ground_truth"
+  },
+  "schema_version": "0.1.0",
+  "spatial_graph": {
+    "construction": "exact_native_visium_six_neighbour_by_sample",
+    "cross_sample_undirected_edges": 0,
+    "hex_offsets": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        -2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        -1,
+        1
+      ],
+      [
+        -1,
+        -1
+      ]
+    ],
+    "qc": [
+      {
+        "cross_sample_undirected_edges": 0,
+        "largest_component_fraction": 0.995049504950495,
+        "largest_component_spots": 3618,
+        "max_degree": 6,
+        "mean_degree": 5.8008800880088005,
+        "median_degree": 6.0,
+        "min_degree": 0,
+        "n_components": 6,
+        "n_isolated_spots": 1,
+        "n_spots": 3636,
+        "n_undirected_edges": 10546,
+        "sample_id": "151673",
+        "scope": "sample"
+      },
+      {
+        "cross_sample_undirected_edges": 0,
+        "largest_component_fraction": 0.995049504950495,
+        "largest_component_spots": 3618,
+        "max_degree": 6,
+        "mean_degree": 5.8008800880088005,
+        "median_degree": 6.0,
+        "min_degree": 0,
+        "n_components": 6,
+        "n_isolated_spots": 1,
+        "n_spots": 3636,
+        "n_undirected_edges": 10546,
+        "sample_id": "__all__",
+        "scope": "cohort"
+      }
+    ],
+    "stored_matrix": "spatial_connectivities",
+    "stored_matrix_semantics": "row_normalized"
+  }
+}

@@ -7,9 +7,13 @@ from pathlib import Path
 
 
 MAX_SOURCE_FILE_BYTES = 5 * 1024 * 1024
+PUBLIC_FIXTURE_LARGE_FILES = {
+    "tests/fixtures/libd_dlpfc_151673/results/report/report.html",
+}
 ROOT_GENERATED_DIRECTORIES = {
     ".git",
     ".snakemake",
+    "inputs",
     "logs",
     "results",
     "work",
@@ -122,7 +126,10 @@ def audit(root: Path) -> list[str]:
             if reason:
                 issues.append(f"{display}: {reason}")
             size = path.stat().st_size
-            if size > MAX_SOURCE_FILE_BYTES:
+            if (
+                size > MAX_SOURCE_FILE_BYTES
+                and display not in PUBLIC_FIXTURE_LARGE_FILES
+            ):
                 issues.append(f"{display}: exceeds 5 MiB source-file limit")
                 continue
             content = path.read_bytes().lower()

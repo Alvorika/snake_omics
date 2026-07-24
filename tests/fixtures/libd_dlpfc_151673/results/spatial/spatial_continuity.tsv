@@ -1,0 +1,25 @@
+record_type	labeling	scope	sample_id	label	n_spots	n_spatial_edges	n_same_label_spatial_edges	same_label_spatial_edge_fraction	n_label_components	n_label_isolated_spots	largest_label_component_spots	largest_label_component_fraction
+labeling_summary	expression_cluster	cohort	__all__	__all__	3636	10546	7792	0.7388583349137113				
+label_component	expression_cluster	cohort	__all__	0	976	2186	2186	1.0	62.0	41.0	878.0	0.8995901639344263
+label_component	expression_cluster	cohort	__all__	1	999	1684	1684	1.0	113.0	56.0	420.0	0.42042042042042044
+label_component	expression_cluster	cohort	__all__	2	920	1981	1981	1.0	55.0	43.0	841.0	0.9141304347826087
+label_component	expression_cluster	cohort	__all__	3	741	1941	1941	1.0	26.0	19.0	695.0	0.9379217273954116
+labeling_summary	expression_cluster	sample	151673	__all__	3636	10546	7792	0.7388583349137113				
+label_component	expression_cluster	sample	151673	0	976	2186	2186	1.0	62.0	41.0	878.0	0.8995901639344263
+label_component	expression_cluster	sample	151673	1	999	1684	1684	1.0	113.0	56.0	420.0	0.42042042042042044
+label_component	expression_cluster	sample	151673	2	920	1981	1981	1.0	55.0	43.0	841.0	0.9141304347826087
+label_component	expression_cluster	sample	151673	3	741	1941	1941	1.0	26.0	19.0	695.0	0.9379217273954116
+labeling_summary	spatial_domain	cohort	__all__	__all__	3636	10546	7395	0.7012137303242936				
+label_component	spatial_domain	cohort	__all__	0	915	2032	2032	1.0	54.0	40.0	837.0	0.9147540983606557
+label_component	spatial_domain	cohort	__all__	1	518	1036	1036	1.0	41.0	30.0	400.0	0.7722007722007722
+label_component	spatial_domain	cohort	__all__	2	394	686	686	1.0	60.0	37.0	219.0	0.5558375634517766
+label_component	spatial_domain	cohort	__all__	3	524	1045	1045	1.0	32.0	23.0	466.0	0.8893129770992366
+label_component	spatial_domain	cohort	__all__	4	690	1852	1852	1.0	13.0	9.0	664.0	0.9623188405797102
+label_component	spatial_domain	cohort	__all__	5	595	744	744	1.0	118.0	61.0	155.0	0.2605042016806723
+labeling_summary	spatial_domain	sample	151673	__all__	3636	10546	7395	0.7012137303242936				
+label_component	spatial_domain	sample	151673	0	915	2032	2032	1.0	54.0	40.0	837.0	0.9147540983606557
+label_component	spatial_domain	sample	151673	1	518	1036	1036	1.0	41.0	30.0	400.0	0.7722007722007722
+label_component	spatial_domain	sample	151673	2	394	686	686	1.0	60.0	37.0	219.0	0.5558375634517766
+label_component	spatial_domain	sample	151673	3	524	1045	1045	1.0	32.0	23.0	466.0	0.8893129770992366
+label_component	spatial_domain	sample	151673	4	690	1852	1852	1.0	13.0	9.0	664.0	0.9623188405797102
+label_component	spatial_domain	sample	151673	5	595	744	744	1.0	118.0	61.0	155.0	0.2605042016806723

@@ -1,0 +1,2 @@
+source_label	canonical_label	status	notes
+SpaceRanger_in_tissue	SpaceRanger_in_tissue	derived_technical_mask	Identity mapping for the Space Ranger in_tissue analysis mask; not an anatomical ROI.

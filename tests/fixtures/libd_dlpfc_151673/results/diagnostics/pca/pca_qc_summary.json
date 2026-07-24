@@ -1,0 +1,95 @@
+{
+  "categorical_associations": {
+    "availability": {
+      "condition": "available",
+      "genotype": "available",
+      "sample_id": "available",
+      "treatment": "available"
+    },
+    "method": "one_way_eta_squared",
+    "rows": 80,
+    "scope": "pooled_retained_spots",
+    "spot_count_weighted": true,
+    "variables": [
+      "sample_id",
+      "genotype",
+      "treatment",
+      "condition"
+    ]
+  },
+  "component": "audit_pca_associations",
+  "design": {
+    "allowed_current_claim": "spot_level_descriptive_association_only",
+    "biological_replicate_column": null,
+    "condition_confounded_with_sample_id": true,
+    "condition_each_cell_n1": true,
+    "condition_level_inference_supported": false,
+    "condition_sample_counts": {
+      "not_provided": 1
+    },
+    "genotype_treatment_cell_sample_counts": {
+      "not_provided|not_provided": 1
+    },
+    "genotype_treatment_each_cell_n1": true,
+    "minimum_samples_per_condition": 1,
+    "n_samples": 1
+  },
+  "input": {
+    "expression_matrix_read": false,
+    "path": "<run-root>/work/preprocessing/cohort_pca.h5ad",
+    "read_mode": "backed_read_only",
+    "size_bytes": 40900951
+  },
+  "input_contract": "joint_uncorrected_pca/log1p_cp10k",
+  "integration": {
+    "batch_aliases_sample_id": false,
+    "batch_n_categories": 0,
+    "candidate_batch_columns": [],
+    "complete_batch_columns": [],
+    "integration_status": "not_eligible",
+    "performed": false,
+    "reason": "No complete technical-batch field is available; sample identity is biologically structured and must not be substituted as batch.",
+    "sample_id_must_not_be_used_as_batch": true,
+    "sample_id_used_as_batch": false,
+    "selected_batch_column": null
+  },
+  "integration_status": "not_eligible",
+  "interpretation_boundary": {
+    "association_claim": "Descriptive spot-level effect sizes only. Pooled associations can reflect sample, condition, anatomy, spot-count imbalance, or technical differences and do not by themselves establish a batch effect.",
+    "condition_each_cell_n1": true,
+    "condition_level_inference_supported": false,
+    "fdr_computed": false,
+    "p_values_computed": false,
+    "spatial_spots_are_independent_replicates": false,
+    "spatial_spots_are_non_independent": true
+  },
+  "numeric_associations": {
+    "covariates": [
+      "log1p_total_counts_before_gene_filter",
+      "log1p_n_genes_by_counts_before_gene_filter"
+    ],
+    "methods": [
+      "pearson_r",
+      "spearman_rho"
+    ],
+    "rows": 40,
+    "scope": "pooled_retained_spots"
+  },
+  "outputs": {
+    "confounding_design": "<run-root>/results/diagnostics/pca/confounding_design.tsv",
+    "log": "<run-root>/logs/diagnostics/pca_associations.log",
+    "pc_categorical_associations": "<run-root>/results/diagnostics/pca/pc_categorical_associations.tsv",
+    "pc_numeric_associations": "<run-root>/results/diagnostics/pca/pc_numeric_associations.tsv",
+    "sample_qc_summary": "<run-root>/results/diagnostics/pca/sample_qc_summary.tsv",
+    "summary": "<run-root>/results/diagnostics/pca/pca_qc_summary.json"
+  },
+  "schema_version": "0.1.0",
+  "shape": {
+    "n_genes": 19151,
+    "n_pcs_audited": 20,
+    "n_pcs_available": 50,
+    "n_samples": 1,
+    "n_spots": 3636
+  },
+  "status": "success"
+}

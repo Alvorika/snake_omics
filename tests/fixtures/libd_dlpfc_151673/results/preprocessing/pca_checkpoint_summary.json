@@ -1,0 +1,105 @@
+{
+  "analysis": "joint_uncorrected_pca",
+  "component": "build_pca_checkpoint",
+  "eligibility": {
+    "151673": {
+      "columns_consumed": [
+        "barcode",
+        "sample_id",
+        "in_primary_matrix",
+        "recommended_keep",
+        "eligibility_state",
+        "reason_codes"
+      ],
+      "columns_ignored": [
+        "array_col",
+        "array_row",
+        "barcode_match_method",
+        "coordinate_bounds_status",
+        "n_genes_by_counts",
+        "pxl_col_in_fullres",
+        "pxl_row_in_fullres",
+        "roi_barcode_original",
+        "roi_label",
+        "roi_member",
+        "source_in_tissue",
+        "total_counts"
+      ],
+      "n_capture_rows": 4992,
+      "n_primary_rows": 3639,
+      "path": "<run-root>/results/qc/151673/tissue_eligibility.tsv.gz",
+      "provided": true
+    }
+  },
+  "filtering_by_sample": {
+    "151673": {
+      "n_below_min_genes": 3,
+      "n_excluded": 3,
+      "n_input": 3639,
+      "n_recommended_keep": 3636,
+      "n_zero": 0
+    }
+  },
+  "outputs": {
+    "cohort_h5ad": "<run-root>/work/preprocessing/cohort_pca.h5ad",
+    "gene_audit": "<run-root>/results/preprocessing/gene_filter_hvg_audit.tsv.gz",
+    "loadings": "<run-root>/results/embeddings/pca_loadings.tsv.gz",
+    "scores": "<run-root>/results/embeddings/pca_scores.tsv.gz",
+    "spot_audit": "<run-root>/results/preprocessing/spot_filter_audit.tsv.gz",
+    "summary": "<run-root>/results/preprocessing/pca_checkpoint_summary.json",
+    "variance": "<run-root>/results/embeddings/pca_variance.tsv"
+  },
+  "parameters": {
+    "hvg_batch_key": "sample_id",
+    "hvg_flavor": "seurat_v3",
+    "integration_or_regression_applied": false,
+    "min_genes": 200,
+    "min_spots": 3,
+    "n_comps": 50,
+    "n_top_genes": 3000,
+    "normalization": "normalize_total_then_log1p",
+    "scale_max_value": 10.0,
+    "seed": 0,
+    "target_sum": 10000.0
+  },
+  "sample_metadata": {
+    "columns_broadcast_only": [
+      "input_type",
+      "input_path",
+      "assay",
+      "species",
+      "genome_reference",
+      "genotype",
+      "treatment",
+      "condition",
+      "roi_path",
+      "roi_barcode_column",
+      "roi_label_column"
+    ],
+    "path": "<run-root>/config/samples.tsv",
+    "provided": true,
+    "used_for_hvg_scaling_or_pca": false
+  },
+  "schema_version": "0.1.0",
+  "semantics": {
+    "X": "CP10k log1p expression",
+    "layers_counts": "raw integer counts after spot/gene filtering",
+    "obsm_X_pca": "joint uncorrected PCA scores",
+    "raw_attribute_created": false,
+    "scaled_matrix_stored": false,
+    "varm_PCs": "HVG loadings; non-HVG rows are zero"
+  },
+  "shape": {
+    "n_hvg": 3000,
+    "n_input_genes": 33538,
+    "n_input_spots": 3639,
+    "n_pcs": 50,
+    "n_retained_genes": 19151,
+    "n_retained_spots": 3636
+  },
+  "software": {
+    "anndata": "0.12.19",
+    "scanpy": "1.11.5"
+  },
+  "status": "success"
+}

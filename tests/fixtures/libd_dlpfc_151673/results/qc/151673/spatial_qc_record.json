@@ -1,0 +1,43 @@
+{
+  "automated_pass_fail": false,
+  "check_enabled": true,
+  "coordinate_system": "fullres_pixel",
+  "coordinates_evaluated": true,
+  "dpi": 180,
+  "lower_quantile": 0.01,
+  "n_spots": 3639,
+  "panels": {
+    "detected_genes": {
+      "color_limits": {
+        "lower_quantile": 0.01,
+        "n_above": 37,
+        "n_below": 36,
+        "upper_quantile": 0.99,
+        "vmax": 4293.959999999999,
+        "vmin": 654.0
+      },
+      "n": 3639,
+      "n_zero": 0,
+      "status": "plotted"
+    },
+    "total_counts": {
+      "color_limits": {
+        "lower_quantile": 0.01,
+        "n_above": 37,
+        "n_below": 36,
+        "upper_quantile": 0.99,
+        "vmax": 11451.199999999999,
+        "vmin": 918.0
+      },
+      "n": 3639,
+      "n_zero": 0,
+      "status": "plotted"
+    }
+  },
+  "point_size": 6.0,
+  "report_only": true,
+  "sample_id": "151673",
+  "status": "success",
+  "upper_quantile": 0.99,
+  "visual_review_required": true
+}

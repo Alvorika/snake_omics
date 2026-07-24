@@ -1,0 +1,125 @@
+{
+  "cluster_runs": [
+    {
+      "cluster_key": "leiden_expr_r0p4_seed0",
+      "n_clusters": 4,
+      "resolution": 0.4,
+      "seed": 0
+    },
+    {
+      "cluster_key": "leiden_expr_r0p4_seed1",
+      "n_clusters": 4,
+      "resolution": 0.4,
+      "seed": 1
+    },
+    {
+      "cluster_key": "leiden_expr_r0p4_seed2",
+      "n_clusters": 4,
+      "resolution": 0.4,
+      "seed": 2
+    },
+    {
+      "cluster_key": "leiden_expr_r0p6_seed0",
+      "n_clusters": 4,
+      "resolution": 0.6,
+      "seed": 0
+    },
+    {
+      "cluster_key": "leiden_expr_r0p6_seed1",
+      "n_clusters": 6,
+      "resolution": 0.6,
+      "seed": 1
+    },
+    {
+      "cluster_key": "leiden_expr_r0p6_seed2",
+      "n_clusters": 5,
+      "resolution": 0.6,
+      "seed": 2
+    },
+    {
+      "cluster_key": "leiden_expr_r0p8_seed0",
+      "n_clusters": 8,
+      "resolution": 0.8,
+      "seed": 0
+    },
+    {
+      "cluster_key": "leiden_expr_r0p8_seed1",
+      "n_clusters": 7,
+      "resolution": 0.8,
+      "seed": 1
+    },
+    {
+      "cluster_key": "leiden_expr_r0p8_seed2",
+      "n_clusters": 7,
+      "resolution": 0.8,
+      "seed": 2
+    }
+  ],
+  "clustering_basis": "expression-neighbour graph from uncorrected PCA",
+  "clustering_uses_umap_coordinates": false,
+  "input_h5ad": "<run-root>/work/preprocessing/cohort_pca.h5ad",
+  "integration_decision": {
+    "complete_batch_columns": [],
+    "performed": false,
+    "reason": "No complete technical-batch field is available; sample identity is biologically structured and must not be treated as a removable batch.",
+    "status": "not_eligible"
+  },
+  "n_genes": 19151,
+  "n_samples": 1,
+  "n_spots": 3636,
+  "neighbour_sample_mixing": {
+    "by_sample": [
+      {
+        "mean_graph_degree": 22.924642464246425,
+        "mean_same_sample_neighbour_fraction": 1.0,
+        "median_same_sample_neighbour_fraction": 1.0,
+        "n_spots": 3636,
+        "sample_id": "151673"
+      }
+    ],
+    "interpretation_boundary": "A high same-sample fraction is descriptive. It can reflect technical, condition, anatomical, or section-composition differences and does not by itself justify integration.",
+    "overall_mean_same_sample_neighbour_fraction": 1.0
+  },
+  "output_h5ad": "<run-root>/work/embeddings/cohort_expression_graph.h5ad",
+  "parameters": {
+    "integration": {
+      "complete_batch_columns": [],
+      "performed": false,
+      "reason": "No complete technical-batch field is available; sample identity is biologically structured and must not be treated as a removable batch.",
+      "status": "not_eligible"
+    },
+    "n_neighbors": 15,
+    "n_pcs": 30,
+    "primary_cluster_key": "leiden_expr_r0p6_seed0",
+    "primary_resolution": 0.6,
+    "primary_seed": 0,
+    "resolutions": [
+      0.4,
+      0.6,
+      0.8
+    ],
+    "schema_version": "0.1.0",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "umap_min_dist": 0.5,
+    "use_rep": "X_pca"
+  },
+  "schema_version": "0.1.0",
+  "stability_mean_ari_by_resolution": [
+    {
+      "mean_adjusted_rand_index": 0.7668379937650527,
+      "resolution": 0.4
+    },
+    {
+      "mean_adjusted_rand_index": 0.700507357194406,
+      "resolution": 0.6
+    },
+    {
+      "mean_adjusted_rand_index": 0.6542406082187467,
+      "resolution": 0.8
+    }
+  ]
+}

@@ -15,7 +15,7 @@ def _portable_string(value: str, project_root: Path) -> str:
     try:
         return resolved.relative_to(project_root).as_posix()
     except ValueError:
-        return f"<external>/{resolved.name}"
+        return "<external>/REDACTED"
 
 
 def sanitize_effective_config(value: Any, *, project_root: Path) -> Any:

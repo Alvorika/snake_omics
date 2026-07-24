@@ -99,6 +99,19 @@ class WorkflowLayoutTests(unittest.TestCase):
             report,
         )
 
+    def test_reader_report_finalizes_module_status_after_html(self) -> None:
+        common = (RULE_DIRECTORY / "common.smk").read_text(encoding="utf-8")
+        report = (RULE_DIRECTORY / "report.smk").read_text(encoding="utf-8")
+        self.assertIn('"results/report/report.html"', common)
+        self.assertIn("rule build_html_report:", report)
+        self.assertIn('"work/report/module_status_draft.tsv"', report)
+        self.assertIn('"results/report/module_status.tsv"', report)
+        self.assertIn("--module-status-output {output.module_status:q}", report)
+        self.assertIn(
+            '"../scripts/reporting/build_report_assets_snakemake.py"',
+            report,
+        )
+
     def test_snakemake_script_wrappers_do_not_contain_future_imports(self) -> None:
         wrapped_scripts: list[Path] = []
         pattern = re.compile(r'script:\s*\n\s*"([^"]+)"')

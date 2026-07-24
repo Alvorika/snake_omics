@@ -640,11 +640,26 @@ properties:
         required:
           - title
           - artifact_hash_max_mb
+          - inline_image_max_mb
+          - inline_image_total_max_mb
+          - max_table_preview_rows
         properties:
           title: {$ref: "#/$defs/non_empty_string"}
           artifact_hash_max_mb:
             type: number
             minimum: 0
+          inline_image_max_mb:
+            type: number
+            minimum: 0
+            maximum: 4
+          inline_image_total_max_mb:
+            type: number
+            minimum: 0
+            maximum: 8
+          max_table_preview_rows:
+            type: integer
+            minimum: 1
+            maximum: 100
       embeddings:
         type: object
         additionalProperties: false

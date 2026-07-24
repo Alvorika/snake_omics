@@ -1,0 +1,244 @@
+{
+  "schema_version": "1.0.0",
+  "sections": [
+    {
+      "module": "qc",
+      "title": "Quality control",
+      "description": "Six evidence-aware QC components, data-readiness state, and per-sample review figures.",
+      "summary_cards": [
+        {
+          "glob": "results/qc/qc_score_summary.json",
+          "title": "QC scoring contract",
+          "fields": [
+            {"path": "status", "label": "Status"},
+            {"path": "method_version", "label": "Method version"},
+            {"path": "profile.profile_id", "label": "Assay profile"},
+            {"path": "reviews.n_records", "label": "Manual review records"},
+            {"path": "score_semantics.minimum_coverage", "label": "Minimum evidence coverage"}
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "glob": "results/qc/qc_score_summary.tsv",
+          "title": "Per-sample QC score",
+          "columns": [
+            {"path": "sample_id", "label": "Sample"},
+            {"path": "overall_state", "label": "State"},
+            {"path": "qc_score", "label": "Final score"},
+            {"path": "provisional_score", "label": "Provisional score"},
+            {"path": "coverage", "label": "Evidence coverage"},
+            {"path": "hard_blocker_components", "label": "Hard blockers"},
+            {"path": "pending_components", "label": "Pending evidence"}
+          ]
+        }
+      ],
+      "images": [
+        {
+          "glob": "results/qc/qc_score_overview.png",
+          "title": "Cohort QC overview",
+          "max_items": 1
+        },
+        {
+          "glob": "results/qc/*/numeric_qc_overview.png",
+          "title": "Numeric QC",
+          "max_items": 12
+        },
+        {
+          "glob": "results/qc/*/spot_complexity.png",
+          "title": "Spot complexity",
+          "max_items": 12
+        },
+        {
+          "glob": "results/qc/*/background_qc_overview.png",
+          "title": "Background signal",
+          "max_items": 12
+        },
+        {
+          "glob": "results/qc/*/spatial_qc_metrics.png",
+          "title": "Spatial QC",
+          "max_items": 12
+        },
+        {
+          "glob": "results/qc/*/image_alignment_overlay.png",
+          "title": "H&E and spot alignment",
+          "max_items": 12
+        }
+      ]
+    },
+    {
+      "module": "core",
+      "title": "Core analysis",
+      "description": "Eligibility, uncorrected PCA, expression-neighbour clustering, and spatial domains.",
+      "summary_cards": [
+        {
+          "glob": "results/preprocessing/pca_checkpoint_summary.json",
+          "title": "PCA checkpoint",
+          "fields": [
+            {"path": "status", "label": "Status"},
+            {"path": "analysis", "label": "Analysis"},
+            {"path": "shape.n_retained_spots", "label": "Retained spots"},
+            {"path": "shape.n_retained_genes", "label": "Retained genes"},
+            {"path": "shape.n_hvg", "label": "Highly variable genes"},
+            {"path": "shape.n_pcs", "label": "Principal components"}
+          ]
+        },
+        {
+          "glob": "results/embeddings/expression_graph_summary.json",
+          "title": "Expression graph",
+          "fields": [
+            {"path": "n_spots", "label": "Spots"},
+            {"path": "n_genes", "label": "Genes"},
+            {"path": "n_samples", "label": "Samples"},
+            {"path": "parameters.primary_resolution", "label": "Primary resolution"},
+            {"path": "parameters.primary_seed", "label": "Primary seed"},
+            {"path": "integration_decision.status", "label": "Integration decision"}
+          ]
+        },
+        {
+          "glob": "results/spatial/spatial_domain_summary.json",
+          "title": "Spatial domains",
+          "fields": [
+            {"path": "n_spots", "label": "Spots"},
+            {"path": "n_genes", "label": "Genes"},
+            {"path": "n_samples", "label": "Samples"},
+            {"path": "parameters.alpha", "label": "Spatial weight"},
+            {"path": "parameters.resolution", "label": "Resolution"},
+            {"path": "parameters.primary_seed", "label": "Primary seed"}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "figures",
+      "title": "Core figures",
+      "description": "Source-backed PCA, UMAP, loading, and spot-QC figures generated from completed core outputs.",
+      "images": [
+        {
+          "glob": "results/figures/embeddings/*.png",
+          "title": "Embedding and QC figures",
+          "max_items": 12
+        }
+      ]
+    },
+    {
+      "module": "roi",
+      "title": "ROI summaries",
+      "description": "ROI coverage, pseudobulk expression, and within-section ROI-versus-rest descriptive effects.",
+      "summary_cards": [
+        {
+          "glob": "results/roi/roi_expression_summary.json",
+          "title": "ROI analysis",
+          "fields": [
+            {"path": "status", "label": "Status"},
+            {"path": "outputs.n_roi_qc_rows", "label": "ROI QC rows"},
+            {"path": "outputs.n_pseudobulk_rows", "label": "Pseudobulk rows"},
+            {"path": "outputs.n_effect_rows", "label": "Effect rows"},
+            {"path": "outputs.n_completed_contrasts", "label": "Completed contrasts"},
+            {"path": "statistical_interpretation.exploratory_only", "label": "Exploratory only"}
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "glob": "results/roi/roi_qc.tsv.gz",
+          "title": "ROI eligibility preview",
+          "columns": [
+            {"path": "sample_id", "label": "Sample"},
+            {"path": "roi_label_canonical", "label": "ROI"},
+            {"path": "n_analysis_spots", "label": "Analysis spots"},
+            {"path": "n_rest_spots", "label": "Rest spots"},
+            {"path": "contrast_status", "label": "Contrast status"}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "svg",
+      "title": "Spatially variable genes",
+      "description": "Within-sample, within-ROI spatial autocorrelation and exploratory permutation candidates.",
+      "summary_cards": [
+        {
+          "glob": "results/svg/*/summary.json",
+          "title": "Per-sample SVG summary",
+          "max_items": 12,
+          "fields": [
+            {"path": "sample_id", "label": "Sample"},
+            {"path": "status", "label": "Status"},
+            {"path": "roi.n_canonical_rois_considered", "label": "ROIs considered"},
+            {"path": "roi.n_spots_retained_total", "label": "Retained ROI spots"},
+            {"path": "genes.n_effect_rows", "label": "Effect rows"},
+            {"path": "genes.n_candidate_rows", "label": "Candidate rows"}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "condition_2x2",
+      "title": "Two-factor condition analysis",
+      "description": "Descriptive one-section-per-cell analysis or replicated ROI-pseudobulk negative-binomial models.",
+      "summary_cards": [
+        {
+          "glob": "results/condition/*/summary.json",
+          "title": "Condition analysis",
+          "fields": [
+            {"path": "status", "label": "Status"},
+            {"path": "analysis_type", "label": "Analysis type"},
+            {"path": "analysis_engine", "label": "Engine", "required": false},
+            {"path": "statistical_unit", "label": "Statistical unit", "required": false},
+            {"path": "n_rois_observed", "label": "ROIs observed", "required": false},
+            {"path": "n_rois_complete", "label": "Complete ROIs", "required": false},
+            {"path": "outputs.n_rois_observed", "label": "ROIs observed (replicated)", "required": false},
+            {"path": "outputs.n_rois_fitted", "label": "ROI models fitted", "required": false},
+            {"path": "outputs.n_model_fit_failed", "label": "Model fit failures", "required": false}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "pathway",
+      "title": "Pathway prioritization",
+      "description": "Preranked gene-set results from descriptive 2×2 contrasts; not condition-level inference.",
+      "summary_cards": [
+        {
+          "glob": "results/pathway/factorial_prerank/summary.json",
+          "title": "Pathway run",
+          "fields": [
+            {"path": "status", "label": "Status"},
+            {"path": "n_rankings", "label": "Rankings"},
+            {"path": "n_enabled_libraries", "label": "Libraries"},
+            {"path": "n_completed_tasks", "label": "Completed tasks"},
+            {"path": "n_failed_tasks", "label": "Failed tasks"},
+            {"path": "n_consolidated_result_rows", "label": "Result rows"},
+            {"path": "inference_boundary.condition_inference_allowed", "label": "Condition inference allowed"}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "resource_report",
+      "title": "Resource usage",
+      "description": "Review of CPU, memory, elapsed time, and sampled project-disk use from wrapped jobs.",
+      "summary_cards": [
+        {
+          "glob": "results/reporting/resource_run_summary.json",
+          "title": "Resource summary",
+          "fields": [
+            {"path": "n_steps", "label": "Monitored steps"},
+            {"path": "n_success", "label": "Successful steps"},
+            {"path": "n_non_success", "label": "Non-success steps"},
+            {"path": "n_steps_with_warnings", "label": "Steps with warnings"},
+            {"path": "max_peak_cpu_percent_machine_capacity", "label": "Peak CPU (% machine)"},
+            {"path": "max_peak_rss_gib", "label": "Peak RSS (GiB)"},
+            {"path": "max_peak_project_size_gib", "label": "Peak project size (GiB)"}
+          ]
+        }
+      ]
+    },
+    {
+      "module": "external_validation",
+      "title": "External comparison",
+      "description": "Specialized comparison with legacy outputs. External results are comparators, not ground truth."
+    }
+  ]
+}

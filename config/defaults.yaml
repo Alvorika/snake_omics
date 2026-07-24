@@ -217,6 +217,11 @@ reporting:
   report:
     title: Snake Omics run report
     artifact_hash_max_mb: 256
+    # Only small report figures are embedded as data URIs. Larger images and
+    # all analysis matrices remain relative links into results/.
+    inline_image_max_mb: 2
+    inline_image_total_max_mb: 8
+    max_table_preview_rows: 20
   embeddings:
     dpi: 180
     top_loadings: 8

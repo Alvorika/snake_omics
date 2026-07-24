@@ -1,5 +1,12 @@
 # Reporting and resource monitoring
 
+The `report` target builds `results/report/report.html` with
+`build_html_report.py`. Curated previews are declared in
+`workflow/report/report_sections.json`; files not present in the artifact
+manifest cannot be previewed. Large files remain relative links. See
+`docs/reporting_EN.md` or `docs/reporting.md` for the reader/technical report
+split and extension contract.
+
 `run_with_resource_monitor.py` is a side-band wrapper for long standalone
 modules. It records a process-tree time series, command log, and JSON summary
 containing wall time, whole-machine-normalized CPU, RSS/VMS, observed I/O,

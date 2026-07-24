@@ -19,6 +19,17 @@ from workflow.module_registry import MODULES
 
 
 SCHEMA_VERSION = "1.0.0"
+MODULE_REPORT_SUMMARY_SCHEMA_VERSION = "1.0.0"
+PUBLIC_MODULE_REPORT_STATUSES = frozenset(
+    {
+        "completed",
+        "review_required",
+        "completed_with_qc_flags",
+        "completed_no_eligible_results",
+        "completed_with_model_failures",
+        "completed_with_failures",
+    }
+)
 
 
 def _atomic_text(path: str | Path, text: str) -> None:
@@ -106,7 +117,7 @@ def _manifest_path(path: Path, root: Path) -> str:
     try:
         return str(path.relative_to(root))
     except ValueError:
-        return f"<external>/{path.name}"
+        return "<external>/REDACTED"
 
 
 def _read_module_json(
@@ -137,6 +148,87 @@ def _read_module_json(
     return payload
 
 
+def _read_module_report_summary(
+    *,
+    root: Path,
+    artifact_rows: list[dict[str, Any]],
+    module: str,
+) -> tuple[str, str] | None:
+    """Read and validate one optional module-level report status sidecar."""
+
+    matches = [
+        root / str(row["path"])
+        for row in artifact_rows
+        if row["module"] == module
+        and Path(str(row["path"])).parts[:1] == ("results",)
+        and Path(str(row["path"])).name == "report_summary.json"
+    ]
+    if not matches:
+        return None
+    if len(matches) > 1:
+        raise ValueError(
+            f"Module {module!r} has more than one results/.../"
+            "report_summary.json artifact"
+        )
+
+    source = matches[0]
+    try:
+        payload = json.loads(source.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"Module report summary {source.name!r} is not valid JSON"
+        ) from error
+    if not isinstance(payload, dict):
+        raise ValueError(
+            f"Module report summary {source.name!r} must be a JSON object"
+        )
+
+    required = {
+        "schema_version",
+        "module",
+        "report_status",
+        "status_detail",
+    }
+    missing = sorted(required - set(payload))
+    if missing:
+        raise ValueError(
+            f"Module report summary for {module!r} is missing required "
+            f"field(s): {missing}"
+        )
+
+    if payload["schema_version"] != MODULE_REPORT_SUMMARY_SCHEMA_VERSION:
+        raise ValueError(
+            f"Module report summary for {module!r} must use schema_version "
+            f"{MODULE_REPORT_SUMMARY_SCHEMA_VERSION!r}"
+        )
+    if not isinstance(payload["module"], str) or payload["module"] != module:
+        raise ValueError(
+            f"Module report summary declares module {payload['module']!r}, "
+            f"but its artifact is registered to {module!r}"
+        )
+
+    status = payload["report_status"]
+    if not isinstance(status, str) or status not in PUBLIC_MODULE_REPORT_STATUSES:
+        allowed = ", ".join(sorted(PUBLIC_MODULE_REPORT_STATUSES))
+        raise ValueError(
+            f"Module report summary for {module!r} has unsupported "
+            f"report_status {status!r}; expected one of: {allowed}"
+        )
+
+    detail = payload["status_detail"]
+    if not isinstance(detail, str):
+        raise ValueError(
+            f"Module report summary status_detail for {module!r} must be a string"
+        )
+    detail = detail.strip()
+    if status != "completed" and not detail:
+        raise ValueError(
+            f"Module report summary for {module!r} must provide a non-empty "
+            f"status_detail when report_status is {status!r}"
+        )
+    return status, detail
+
+
 def _module_completion(
     *,
     module: str,
@@ -148,6 +240,20 @@ def _module_completion(
 
     if module not in selected:
         return "not_requested", ""
+
+    if module == "report":
+        return (
+            "pending_reader_html",
+            "Report assets are ready; the reader-facing HTML is not built yet",
+        )
+
+    report_summary = _read_module_report_summary(
+        root=root,
+        artifact_rows=artifact_rows,
+        module=module,
+    )
+    if report_summary is not None:
+        return report_summary
 
     if module == "qc":
         payload = _read_module_json(
@@ -208,6 +314,24 @@ def _module_completion(
                 "completed_with_model_failures",
                 f"{failed} canonical ROI model fit(s) failed; inspect diagnostics",
             )
+
+    if module == "pathway":
+        payload = _read_module_json(
+            root=root,
+            artifact_rows=artifact_rows,
+            module=module,
+            suffix="results/pathway/factorial_prerank/summary.json",
+        )
+        if payload is not None and payload.get("status") == (
+            "completed_with_failures"
+        ):
+            failed = int(payload.get("n_failed_tasks", 0))
+            detail = "At least one pathway task failed; inspect the run-status manifest"
+            if failed:
+                detail = (
+                    f"{failed} pathway task(s) failed; inspect the run-status manifest"
+                )
+            return "completed_with_failures", detail
 
     return "completed", ""
 
@@ -383,10 +507,16 @@ def build_report_assets(
                 "- Large files are referenced by path and are not embedded here.",
                 "- Experimental-design assessment is intentionally outside this report version.",
                 "",
-                "Generate the final Snakemake HTML with:",
+                "Generate the reader-facing HTML with:",
                 "",
                 "```bash",
-                "snakemake --snakefile workflow/Snakefile --report results/report/report.html report",
+                "snakemake --snakefile workflow/Snakefile report",
+                "```",
+                "",
+                "Generate the optional Snakemake technical report with:",
+                "",
+                "```bash",
+                "snakemake --snakefile workflow/Snakefile --report results/report/snakemake_report.html report",
                 "```",
                 "",
             ]

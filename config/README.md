@@ -111,3 +111,9 @@ schema and tests rather than an untracked project-level tweak.
 `qc.plots.spatial_qc` likewise controls presentation only. `lower_quantile` and `upper_quantile` bound each panel's independent log color scale, while `point_size` and `dpi` control rendering. All values and spots remain in the evidence table and figure; these per-sample color scales are intended for within-sample pattern review, not direct color-to-color comparison between samples.
 
 `qc.plots.image_alignment.image_preference` is an ordered list of registered image roles. Each role has one fixed scalefactor contract: `tissue_hires` uses `tissue_hires_scalef`, `tissue_lowres` uses `tissue_lowres_scalef`, and `aligned_tissue` uses `regist_target_img_scalef`; the workflow never guesses another pairing. `spot_diameter_scale` changes only the drawn marker diameter, and `fallback_spot_diameter_px` is used only when Space Ranger did not provide `spot_diameter_fullres`. This overlay is visual evidence, not an alignment correction or automated decision.
+
+`reporting.report.inline_image_max_mb` bounds one embedded reader-report image
+(maximum 4 MiB), while `inline_image_total_max_mb` bounds all embedded image
+source bytes (maximum 8 MiB). Images outside either budget are link-only and
+are not loaded when the HTML opens. `max_table_preview_rows` is capped at 100;
+full tables remain separate artifacts.

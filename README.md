@@ -70,7 +70,7 @@ automatically by default.
 | `pathway` | Preranked enrichment from the descriptive 2×2 branch |
 | `figures` | Source-backed figures for completed core outputs |
 | `resource_report` | CPU, memory, elapsed-time, I/O, and disk-monitor summaries |
-| `report` | Effective config, module status, provenance, and artifact index |
+| `report` | Reader HTML, effective config, module status, provenance, and artifact index |
 | `full` | Stable self-contained set: QC, core, ROI, SVG, 2×2, figures, and report |
 
 `pathway` requires a verified GMT manifest and is not included in `full`.
@@ -97,7 +97,7 @@ comparator is specialized and must be enabled explicitly.
 
 ## Run report
 
-Build report assets and then the standalone Snakemake HTML:
+Build the compact reader report:
 
 ```bash
 snakemake \
@@ -106,18 +106,25 @@ snakemake \
   --cores 8 \
   --sdm conda \
   report
+```
 
+This creates `results/report/report.html`. Generate Snakemake's separate
+internal/debug technical report only when needed:
+
+```bash
 snakemake \
   --snakefile workflow/Snakefile \
   --directory . \
-  --report results/report/report.html \
+  --report results/report/snakemake_report.html \
   report
 ```
 
 Large H5AD files, matrices, and original images are referenced rather than
 embedded. The report records the merged effective configuration, module
 completion/review states, relative artifact paths, sizes, and bounded
-checksums. External absolute paths are redacted.
+checksums. External absolute paths and their basenames are redacted. See
+[reporting](docs/reporting_EN.md) for extension and delivery details.
+The complete `results/` tree is not an automatically sanitized public bundle.
 
 ## Privacy and source export
 
@@ -136,5 +143,6 @@ review of identifiers, free text, figures, and HTML.
 
 Detailed contracts are documented in
 [inputs](docs/inputs.md), [modules](docs/modules.md),
+[reporting](docs/reporting_EN.md),
 [troubleshooting](docs/troubleshooting.md), and
 [privacy](docs/privacy.md).

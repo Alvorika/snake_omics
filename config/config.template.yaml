@@ -110,6 +110,11 @@ modules:
 #     permutations: 100
 
 # reporting:
+#   report:
+#     title: Snake Omics run report
+#     inline_image_max_mb: 2
+#     inline_image_total_max_mb: 8
+#     max_table_preview_rows: 20
 #   embeddings:
 #     dpi: 180
 

@@ -359,6 +359,7 @@ REPORT_OUTPUTS = [
     "results/report/run_manifest.json",
     "results/report/module_status.tsv",
     "results/report/README.md",
+    "results/report/report.html",
 ]
 
 NAMED_H5AD_ARGUMENTS = named_sample_cli_arguments("--h5ad", INGESTED_H5ADS)

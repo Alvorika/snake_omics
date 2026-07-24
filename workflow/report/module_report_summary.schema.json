@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Snake Omics module report summary",
+  "description": "Optional status sidecar produced by one selected workflow module.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "module",
+    "report_status",
+    "status_detail"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "module": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_status": {
+      "enum": [
+        "completed",
+        "review_required",
+        "completed_with_qc_flags",
+        "completed_no_eligible_results",
+        "completed_with_model_failures",
+        "completed_with_failures"
+      ]
+    },
+    "status_detail": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "report_status": {
+            "not": {
+              "const": "completed"
+            }
+          }
+        },
+        "required": [
+          "report_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "status_detail": {
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

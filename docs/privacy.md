@@ -50,11 +50,26 @@ HTML。
 
 ## 报告与大文件索引
 
-HTML 报告会显示样本 ID、模块状态和部分结果。生成报告前应再次确认这些内容已经脱敏。
+读者报告和 Snakemake 技术报告都可能显示样本 ID、分组/ROI 名、模块状态、图中文字、
+effective config、相对文件名和部分结果。生成后必须分别打开检查，不能因为路径扫描通过
+就默认内容已经脱敏。外部绝对路径和 basename 会被统一替换，但普通文本和图中标签无法
+由流程自动判断。
 
 artifact manifest 只应记录运行目录内的相对结果路径。不要把私有数据源的完整本机路径
 复制到公开报告。大型文件可以在受控存储中交付，报告只保留文件角色、大小、checksum 和
-相对引用。
+相对引用。在受控存储中移动时应保留完整 `results/` 目录结构；单独移动 HTML 会破坏
+相对链接。但完整结果树不是自动脱敏的公开 bundle，部分科学 summary 仍可能含输入
+provenance。公开随附文件前，先把准备发布的内容复制到独立 staging 目录；不要放入
+Snakemake 技术报告，然后执行：
+
+```bash
+python scripts/audit_run_outputs.py PATH_TO_PUBLIC_STAGING \
+  --project-root . \
+  --forbid REPLACE_WITH_PROJECT_IDENTIFIER
+```
+
+技术报告默认仅用于内部诊断，不属于默认公开交付。输出扫描只能发现已知本机路径和用户
+提供的标识，仍不能替代逐文件人工检查。
 
 ## 测试数据
 

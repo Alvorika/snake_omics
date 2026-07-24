@@ -32,7 +32,7 @@ class ReportManifestTests(unittest.TestCase):
             self.assertEqual(persisted["internal"], "config/samples.tsv")
             self.assertEqual(
                 persisted["external"],
-                "<external>/samples.tsv",
+                "<external>/REDACTED",
             )
             self.assertNotIn("/private/source", output.read_text())
 
@@ -121,7 +121,11 @@ class ReportManifestTests(unittest.TestCase):
                 modules.loc["external_validation", "status"],
                 "not_requested",
             )
-            self.assertEqual(modules.loc["report", "status"], "completed")
+            self.assertEqual(
+                modules.loc["report", "status"],
+                "pending_reader_html",
+            )
+            self.assertTrue(modules.loc["report", "status_detail"])
             self.assertIn("report", manifest["selected_modules"])
 
     def test_rejects_unknown_module_and_missing_artifact(self) -> None:
@@ -211,15 +215,15 @@ class ReportManifestTests(unittest.TestCase):
             )
             self.assertEqual(
                 manifest["config"]["path"],
-                "<external>/config.yaml",
+                "<external>/REDACTED",
             )
             self.assertEqual(
                 manifest["defaults"]["path"],
-                "<external>/defaults.yaml",
+                "<external>/REDACTED",
             )
             self.assertEqual(
                 manifest["samples"]["path"],
-                "<external>/samples.tsv",
+                "<external>/REDACTED",
             )
             serialized = json.dumps(manifest)
             self.assertNotIn(str(external), serialized)
@@ -371,6 +375,308 @@ class ReportManifestTests(unittest.TestCase):
                 "2 canonical ROI",
                 statuses.loc["condition_2x2", "status_detail"],
             )
+
+    def test_pathway_task_failures_are_propagated_to_report(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            defaults = root / "defaults.yaml"
+            config = root / "config.yaml"
+            samples = root / "samples.tsv"
+            effective = root / "effective.json"
+            pathway_summary = (
+                root
+                / "results"
+                / "pathway"
+                / "factorial_prerank"
+                / "summary.json"
+            )
+            for path in (defaults, config, effective):
+                path.write_text("{}\n", encoding="utf-8")
+            samples.write_text("sample_id\n", encoding="utf-8")
+            pathway_summary.parent.mkdir(parents=True)
+            pathway_summary.write_text(
+                json.dumps(
+                    {
+                        "status": "completed_with_failures",
+                        "n_failed_tasks": 3,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            output = root / "report"
+            build_report_assets(
+                artifacts=[
+                    (
+                        "pathway="
+                        "results/pathway/factorial_prerank/summary.json"
+                    )
+                ],
+                selected_modules=["pathway"],
+                project_root=root,
+                project_name="example",
+                defaults_path=defaults,
+                config_path=config,
+                samples_path=samples,
+                effective_config_path=effective,
+                title="Example",
+                snakemake_version="9.test",
+                artifact_hash_max_mb=1,
+                artifact_table_output=output / "artifacts.tsv",
+                artifact_json_output=output / "artifacts.json",
+                run_manifest_output=output / "run.json",
+                module_status_output=output / "modules.tsv",
+                readme_output=output / "README.md",
+            )
+            statuses = pd.read_csv(
+                output / "modules.tsv",
+                sep="\t",
+                keep_default_na=False,
+            ).set_index("module")
+            self.assertEqual(
+                statuses.loc["pathway", "status"],
+                "completed_with_failures",
+            )
+            self.assertIn(
+                "3 pathway task",
+                statuses.loc["pathway", "status_detail"],
+            )
+
+    def test_module_report_summary_sidecar_takes_priority(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            defaults = root / "defaults.yaml"
+            config = root / "config.yaml"
+            samples = root / "samples.tsv"
+            effective = root / "effective.json"
+            for path in (defaults, config, effective):
+                path.write_text("{}\n", encoding="utf-8")
+            samples.write_text("sample_id\n", encoding="utf-8")
+
+            qc_score = root / "results" / "qc" / "qc_score_summary.json"
+            qc_sidecar = root / "results" / "qc" / "report_summary.json"
+            core_sidecar = root / "results" / "core" / "report_summary.json"
+            qc_score.parent.mkdir(parents=True)
+            core_sidecar.parent.mkdir(parents=True)
+            qc_score.write_text(
+                json.dumps(
+                    {
+                        "samples": [
+                            {
+                                "sample_id": "sample_01",
+                                "overall_state": "HARD_BLOCKED",
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+            qc_sidecar.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0.0",
+                        "module": "qc",
+                        "report_status": "review_required",
+                        "status_detail": "Manual tissue-mask review is pending.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            core_sidecar.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "1.0.0",
+                        "module": "core",
+                        "report_status": "completed",
+                        "status_detail": "",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = root / "report"
+            build_report_assets(
+                artifacts=[
+                    "qc=results/qc/qc_score_summary.json",
+                    "qc=results/qc/report_summary.json",
+                    "core=results/core/report_summary.json",
+                ],
+                selected_modules=["qc", "core"],
+                project_root=root,
+                project_name="example",
+                defaults_path=defaults,
+                config_path=config,
+                samples_path=samples,
+                effective_config_path=effective,
+                title="Example",
+                snakemake_version="9.test",
+                artifact_hash_max_mb=1,
+                artifact_table_output=output / "artifacts.tsv",
+                artifact_json_output=output / "artifacts.json",
+                run_manifest_output=output / "run.json",
+                module_status_output=output / "modules.tsv",
+                readme_output=output / "README.md",
+            )
+            statuses = pd.read_csv(
+                output / "modules.tsv",
+                sep="\t",
+                keep_default_na=False,
+            ).set_index("module")
+            self.assertEqual(
+                statuses.loc["qc", "status"],
+                "review_required",
+            )
+            self.assertEqual(
+                statuses.loc["qc", "status_detail"],
+                "Manual tissue-mask review is pending.",
+            )
+            self.assertEqual(statuses.loc["core", "status"], "completed")
+            self.assertEqual(statuses.loc["core", "status_detail"], "")
+
+    def test_rejects_invalid_module_report_summary_sidecars(self) -> None:
+        valid = {
+            "schema_version": "1.0.0",
+            "module": "core",
+            "report_status": "review_required",
+            "status_detail": "Review is pending.",
+        }
+        cases = [
+            (
+                "schema version",
+                {**valid, "schema_version": "2.0.0"},
+                "schema_version",
+            ),
+            (
+                "module mismatch",
+                {**valid, "module": "qc"},
+                "registered to 'core'",
+            ),
+            (
+                "unsupported status",
+                {**valid, "report_status": "failed"},
+                "unsupported report_status",
+            ),
+            (
+                "missing non-completed detail",
+                {**valid, "status_detail": "  "},
+                "non-empty status_detail",
+            ),
+            (
+                "non-string detail",
+                {**valid, "status_detail": None},
+                "must be a string",
+            ),
+            (
+                "missing required field",
+                {
+                    key: value
+                    for key, value in valid.items()
+                    if key != "status_detail"
+                },
+                "missing required field",
+            ),
+        ]
+
+        for label, payload, message in cases:
+            with self.subTest(label=label):
+                with tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    defaults = root / "defaults.yaml"
+                    config = root / "config.yaml"
+                    samples = root / "samples.tsv"
+                    effective = root / "effective.json"
+                    for path in (defaults, config, effective):
+                        path.write_text("{}\n", encoding="utf-8")
+                    samples.write_text("sample_id\n", encoding="utf-8")
+                    sidecar = (
+                        root / "results" / "core" / "report_summary.json"
+                    )
+                    sidecar.parent.mkdir(parents=True)
+                    sidecar.write_text(
+                        json.dumps(payload),
+                        encoding="utf-8",
+                    )
+                    output = root / "report"
+                    with self.assertRaisesRegex(ValueError, message):
+                        build_report_assets(
+                            artifacts=[
+                                "core=results/core/report_summary.json"
+                            ],
+                            selected_modules=["core"],
+                            project_root=root,
+                            project_name="example",
+                            defaults_path=defaults,
+                            config_path=config,
+                            samples_path=samples,
+                            effective_config_path=effective,
+                            title="Example",
+                            snakemake_version="9.test",
+                            artifact_hash_max_mb=1,
+                            artifact_table_output=output / "artifacts.tsv",
+                            artifact_json_output=output / "artifacts.json",
+                            run_manifest_output=output / "run.json",
+                            module_status_output=output / "modules.tsv",
+                            readme_output=output / "README.md",
+                        )
+
+    def test_rejects_duplicate_module_report_summary_sidecars(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            defaults = root / "defaults.yaml"
+            config = root / "config.yaml"
+            samples = root / "samples.tsv"
+            effective = root / "effective.json"
+            for path in (defaults, config, effective):
+                path.write_text("{}\n", encoding="utf-8")
+            samples.write_text("sample_id\n", encoding="utf-8")
+            payload = {
+                "schema_version": "1.0.0",
+                "module": "core",
+                "report_status": "completed",
+                "status_detail": "",
+            }
+            first = (
+                root / "results" / "core" / "first" / "report_summary.json"
+            )
+            second = (
+                root / "results" / "core" / "second" / "report_summary.json"
+            )
+            first.parent.mkdir(parents=True)
+            second.parent.mkdir(parents=True)
+            first.write_text(json.dumps(payload), encoding="utf-8")
+            second.write_text(json.dumps(payload), encoding="utf-8")
+            output = root / "report"
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "more than one results/.../report_summary.json",
+            ):
+                build_report_assets(
+                    artifacts=[
+                        (
+                            "core=results/core/first/"
+                            "report_summary.json"
+                        ),
+                        (
+                            "core=results/core/second/"
+                            "report_summary.json"
+                        ),
+                    ],
+                    selected_modules=["core"],
+                    project_root=root,
+                    project_name="example",
+                    defaults_path=defaults,
+                    config_path=config,
+                    samples_path=samples,
+                    effective_config_path=effective,
+                    title="Example",
+                    snakemake_version="9.test",
+                    artifact_hash_max_mb=1,
+                    artifact_table_output=output / "artifacts.tsv",
+                    artifact_json_output=output / "artifacts.json",
+                    run_manifest_output=output / "run.json",
+                    module_status_output=output / "modules.tsv",
+                    readme_output=output / "README.md",
+                )
 
 
 if __name__ == "__main__":

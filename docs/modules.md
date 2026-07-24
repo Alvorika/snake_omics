@@ -27,7 +27,7 @@ ROI、实验设计或 gene-set 资源。
 | `pathway` | 对描述性 condition ranking 做可恢复的 prerank 富集 | 描述性 `condition_2x2`、GMT 清单 | `results/pathway/` |
 | `figures` | 为已完成模块生成通用图及 source tables | 相应分析模块 | `results/figures/` |
 | `resource_report` | 汇总资源监控日志 | 资源日志 | `results/reporting/` |
-| `report` | 汇总 QC、图、模块状态、运行来源和文件索引 | 已启用模块 | `results/report/` |
+| `report` | 生成读者 HTML，汇总 QC、模块状态、运行来源和文件索引 | 已启用模块 | `results/report/` |
 
 `full` 是一个方便目标，会请求自包含的稳定分析模块。它要求 ROI 和 2×2 设计已配置；
 `pathway` 依赖外部 GMT，`resource_report` 依赖预先生成的监控日志，因此两者必须显式
@@ -107,14 +107,20 @@ snakemake \
 - review_required；
 - completed_with_qc_flags；
 - completed_no_eligible_results；
-- completed_with_model_failures。
+- completed_with_model_failures；
+- completed_with_failures。
 
 若某条 Snakemake rule 失败，本次 DAG 会直接以非零状态停止，不会生成一份把失败模块
 写成 completed 的最终报告。具体失败原因保留在相应日志中。
 
-H5AD、完整矩阵和原始图像只出现在 artifact manifest 中，不嵌入 HTML。
+`snakemake ... report` 会生成面向读者的 `results/report/report.html`；Snakemake 自带的
+技术报告使用另一个文件名 `results/report/snakemake_report.html`，按需单独生成。
+
+H5AD、完整矩阵和原始图像只出现在 artifact manifest 中，不嵌入读者 HTML。
 run manifest 分别记录 defaults、活动 override、samples 和合并后 effective config 的
-校验值；effective config 会把仓库内路径转为相对路径，并脱敏外部绝对路径。
+校验值；effective config 会把仓库内路径转为相对路径，并隐藏外部绝对路径及其文件名。
+新增模块会自动进入通用状态和文件索引；精选章节的扩展方法见
+[HTML 报告](reporting.md)。
 
 ## 实验性外部比较器
 
